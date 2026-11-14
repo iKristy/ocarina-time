@@ -103,6 +103,7 @@ function Index() {
           {SONGS.map((s, i) => (
             <li key={s.name}>
               <button onClick={() => playSong(i)}
+                data-playing={i === selected && isPlaying}
                 className={`panel flex w-full items-center gap-3 rounded-lg px-4 py-3.5 text-left font-body text-lg transition-all ${i === selected ? "song-selected text-gold" : "text-foreground"}`}>
                 <span aria-hidden="true" data-playing={i === selected && isPlaying} className="song-note-icon inline-flex w-5 shrink-0 justify-center text-2xl leading-none">♪</span>
                 <span>{s.name}</span>
