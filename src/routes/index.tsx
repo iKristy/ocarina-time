@@ -122,7 +122,10 @@ function Index() {
   if (!song) return null;
 
   return (
-    <main className="mx-auto flex h-dvh max-w-md flex-col items-center gap-5 overflow-hidden px-4 pb-4 pt-6">
+    <main className="relative mx-auto flex h-dvh max-w-md flex-col items-center gap-5 overflow-hidden px-4 pb-4 pt-6">
+      <svg aria-hidden="true" viewBox="0 0 120 104" className="triforce-bg">
+        <path d="M60 8 L44 36 L76 36 Z M44 36 L28 64 L60 64 Z M76 36 L60 64 L92 64 Z" fill="currentColor" />
+      </svg>
       <header className="text-center">
         <p className="font-serif text-xs tracking-[0.4em] text-muted-foreground">THE LEGEND OF ZELDA</p>
         <h1 className="gold-text font-display text-4xl font-bold leading-tight">Ocarina of Time</h1>

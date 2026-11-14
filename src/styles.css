@@ -122,6 +122,18 @@
 .ocarina-sequence .seq-btn { border-radius: 9999px; }
 .ocarina-sequence .seq-btn:focus-visible { outline: 2px solid var(--sequence-focus); outline-offset: 3px; }
 .ocarina-sequence .seq-btn-r { border-radius: 6px; }
+.triforce-bg {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(150vw, 1000px);
+  height: auto;
+  color: var(--gold);
+  opacity: 0.045;
+  pointer-events: none;
+  z-index: 0;
+}
+main > *:not(.triforce-bg) { position: relative; z-index: 1; }
 .song-scroll {
   scrollbar-width: none;
   -webkit-mask-image: linear-gradient(to bottom, black 72%, transparent 98%);
