@@ -108,9 +108,6 @@ function Index() {
           <g className="ocarina-triforce" transform="translate(181 117) scale(0.6)">
             <path d="M 0 -23 L -12 -2 L 12 -2 Z M -12 -2 L -24 19 L 0 19 Z M 12 -2 L 0 19 L 24 19 Z" />
           </g>
-          <ellipse className="ocarina-hole" cx="109" cy="161" rx="11" ry="10" />
-          <ellipse className="ocarina-hole" cx="209" cy="162" rx="11" ry="10" />
-          <ellipse className="ocarina-hole" cx="306" cy="173" rx="11" ry="9" transform="rotate(-12 306 173)" />
         </svg>
         <div className="ocarina-sequence">
           {(song.notes.split("") as Note[]).map((n, i) => (
