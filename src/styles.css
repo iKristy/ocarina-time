@@ -104,12 +104,13 @@
   width: 100%;
   margin-top: -2.5rem;
   aspect-ratio: 420 / 300;
+  filter: drop-shadow(0 12px 12px var(--ocarina-shadow));
 }
 .ocarina-shape { display: block; width: 100%; height: 100%; }
 .ocarina-stop-light { stop-color: var(--ocarina-light); }
 .ocarina-stop-blue { stop-color: var(--ocarina-blue); }
 .ocarina-stop-dark { stop-color: var(--ocarina-dark); }
-.ocarina-body { fill: none; stroke: var(--ocarina-light); stroke-width: 2; }
+.ocarina-body { fill: url(#ocarina-body); stroke: var(--ocarina-dark); stroke-width: 2; }
 .ocarina-stop-deep { stop-color: var(--ocarina-deep); }
 .ocarina-stop-glaze { stop-color: var(--ocarina-glaze); }
 .ocarina-stop-clear { stop-color: var(--ocarina-glaze); stop-opacity: 0; }
@@ -117,14 +118,13 @@
 .ocarina-glaze { fill: url(#ocarina-glaze); }
 .ocarina-reflection { fill: none; stroke: var(--ocarina-reflection); stroke-width: 9; stroke-linecap: round; filter: url(#ocarina-soften); }
 .ocarina-glint { fill: none; stroke: var(--ocarina-glaze); stroke-width: 2; stroke-linecap: round; }
-.ocarina-metal-detail { fill: none; stroke: var(--ocarina-light); stroke-width: 1; opacity: .65; }
+.ocarina-metal-detail { fill: none; stroke: var(--ocarina-metal-engraving); stroke-width: 1; opacity: .65; }
 .ocarina-stop-silver { stop-color: var(--ocarina-silver); }
 .ocarina-stop-silver-dark { stop-color: var(--ocarina-silver-dark); }
-.ocarina-collar { fill: none; stroke: var(--ocarina-light); stroke-width: 1.5; }
+.ocarina-collar { fill: url(#ocarina-collar); stroke: var(--ocarina-silver-dark); stroke-width: 1.5; }
 .ocarina-highlight { fill: none; stroke: var(--ocarina-shine); stroke-width: 8; stroke-linecap: round; filter: url(#ocarina-soften); }
 .ocarina-contour { fill: none; stroke: var(--ocarina-deep); stroke-width: 12; stroke-linecap: round; opacity: 0.55; filter: url(#ocarina-soften); }
-.ocarina-glaze, .ocarina-reflection, .ocarina-glint, .ocarina-highlight, .ocarina-contour { display: none; }
-.ocarina-triforce { fill: none; stroke: var(--ocarina-light); stroke-width: 1.5; }
+.ocarina-triforce { fill: var(--gold); }
 .ocarina-sequence {
   position: absolute;
   left: 12%;
