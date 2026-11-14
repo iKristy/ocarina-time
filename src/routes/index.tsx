@@ -77,14 +77,14 @@ function Index() {
   const playSong = async (i: number) => {
     if (busy.current) return;
     busy.current = true; setSelected(i); setTyped([]);
-    for (const n of SONGS[i].notes as unknown as Note[]) {
+    for (const n of SONGS[i]!.notes.split("") as Note[]) {
       play(n, 0.5); flash(n);
       await new Promise((r) => setTimeout(r, 520));
     }
     busy.current = false;
   };
 
-  const song = SONGS[selected];
+  const song = SONGS[selected]!;
   const Btn = ({ n, cls }: { n: Note; cls: string }) => (
     <button aria-label={`Note ${SYMBOL[n]}`} data-on={active === n} onPointerDown={() => press(n)}
       className={`note-btn ${cls}`}>{SYMBOL[n]}</button>
