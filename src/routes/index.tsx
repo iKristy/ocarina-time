@@ -39,6 +39,24 @@ const SONGS: { name: string; notes: string; tone: string }[] = [
 
 let ctx: AudioContext | null = null;
 let breathBuffer: AudioBuffer | null = null;
+let reverbIn: GainNode | null = null;
+// A soft "stone temple" echo: shared convolver fed by every note.
+function reverbSend(c: AudioContext) {
+  if (reverbIn) return reverbIn;
+  const seconds = 1.4;
+  const impulse = c.createBuffer(2, c.sampleRate * seconds, c.sampleRate);
+  for (let ch = 0; ch < 2; ch++) {
+    const samples = impulse.getChannelData(ch);
+    for (let i = 0; i < samples.length; i++) {
+      samples[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / samples.length, 2.6);
+    }
+  }
+  const convolver = c.createConvolver(); convolver.buffer = impulse;
+  const wet = c.createGain(); wet.gain.value = 0.22;
+  reverbIn = c.createGain();
+  reverbIn.connect(convolver).connect(wet).connect(c.destination);
+  return reverbIn;
+}
 function play(n: Note, dur = 0.45) {
   ctx ??= new AudioContext();
   if (ctx.state === "suspended") void ctx.resume();
@@ -77,6 +95,7 @@ function play(n: Note, dur = 0.45) {
   airGain.gain.linearRampToValueAtTime(0.009, t + 0.1);
   breath.connect(airFilter).connect(airGain).connect(g);
   o.connect(g); o2.connect(g2).connect(g); g.connect(f).connect(ctx.destination);
+  g.connect(reverbSend(ctx));
   g.gain.setValueAtTime(0, t);
   g.gain.linearRampToValueAtTime(0.32, t + 0.055);
   g.gain.linearRampToValueAtTime(0.29, t + 0.13);

@@ -28,6 +28,7 @@ beforeEach(() => {
     createBiquadFilter() {
       return { ...node(), type: "", frequency: { value: 0 }, Q: { value: 0 } };
     }
+    createConvolver() { return { ...node(), buffer: null }; }
     createOscillator() {
       return {
         ...node(), type: "", start, stop: vi.fn(),
