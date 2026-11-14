@@ -192,7 +192,7 @@ main > *:not(.triforce-bg) { position: relative; z-index: 1; }
   isolation: isolate;
   transition: color .24s ease;
 }
-.song-item::before, .song-item::after {
+.song-item::before, .song-selected-frame {
   content: "";
   position: absolute;
   inset: -1px;
@@ -202,28 +202,37 @@ main > *:not(.triforce-bg) { position: relative; z-index: 1; }
   border: 1px solid var(--border);
   transform: scale(1);
   transform-origin: center;
-  transition: transform .32s cubic-bezier(.22, 1, .36, 1), opacity .24s ease, --song-border-color .24s ease;
+  transition: transform .32s cubic-bezier(.22, 1, .36, 1), opacity .24s ease;
 }
 .song-item::before {
   background: var(--song-frame-background);
   box-shadow: var(--song-frame-shadow);
 }
-.song-item::after {
-  --song-border-color: var(--gold);
-  border-color: var(--song-border-color);
+.song-selected-frame {
+  border-color: transparent;
   background: var(--song-frame-selected-background);
-  box-shadow: inset 0 0 0 3px var(--song-border-color), var(--song-selection-glow), var(--song-selection-inner-glow);
+  box-shadow: var(--song-selection-glow), var(--song-selection-inner-glow);
   opacity: 0;
 }
-.song-selected::before, .song-selected::after {
+.song-selected-frame::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  --song-border-color: var(--gold);
+  border: 1px solid var(--song-border-color);
+  box-shadow: inset 0 0 0 3px var(--song-border-color);
+  transition: --song-border-color .24s ease;
+}
+.song-selected::before, .song-selected .song-selected-frame {
   transform: scale(1.02);
 }
 .song-selected::before { opacity: 0; }
-.song-selected::after { opacity: 1; }
+.song-selected .song-selected-frame { opacity: 1; }
 .song-selected[data-playing="true"] {
   color: var(--crest-gold-light);
 }
-.song-selected[data-playing="true"]::after {
+.song-selected[data-playing="true"] .song-selected-frame::before {
   animation: song-border-color 1.2s ease-in-out infinite;
 }
 @keyframes song-border-color {
@@ -264,8 +273,8 @@ main > *:not(.triforce-bg) { position: relative; z-index: 1; }
   text-shadow: var(--song-note-glow);
 }
 @media (prefers-reduced-motion: reduce) {
-  .song-selected[data-playing="true"]::after { animation: none; --song-border-color: var(--crest-gold-light); }
-  .song-item, .song-item::before, .song-item::after, .song-sheen-layer { transition: none; }
+  .song-selected[data-playing="true"] .song-selected-frame::before { animation: none; --song-border-color: var(--crest-gold-light); }
+  .song-item, .song-item::before, .song-selected-frame, .song-selected-frame::before, .song-sheen-layer { transition: none; }
   .song-note-icon[data-playing="true"] { animation: none; }
 }
 .song-scroll > ul { padding-inline: 2rem; padding-top: 1.5rem; }
