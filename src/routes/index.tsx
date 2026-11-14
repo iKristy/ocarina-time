@@ -189,11 +189,11 @@ function Index() {
             <filter id="ocarina-soften"><feGaussianBlur stdDeviation="3" /></filter>
             <filter id="ceramic-mottle" x="0" y="0" width="100%" height="100%">
               <feTurbulence type="fractalNoise" baseFrequency="0.014 0.022" numOctaves="4" seed="7" />
-              <feColorMatrix type="matrix" values="0 0 0 0 0.72  0 0 0 0 0.84  0 0 0 0 1  0 0 0 0.85 0" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0.55  0 0 0 0 0.7  0 0 0 0 0.98  0 0 0 0.45 -0.08" />
             </filter>
             <filter id="ceramic-speckle" x="0" y="0" width="100%" height="100%">
               <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" seed="3" />
-              <feColorMatrix type="matrix" values="0 0 0 0 0.9  0 0 0 0 0.95  0 0 0 0 1  1.4 1.4 1.4 -2.1 0" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0.85  0 0 0 0 0.92  0 0 0 0 1  1.6 1.6 1.6 -2.95 0" />
             </filter>
             <clipPath id="ocarina-surface"><use href="#ocarina-outline" /></clipPath>
             <linearGradient id="ocarina-collar" x1="0" y1="0" x2="1" y2="0">

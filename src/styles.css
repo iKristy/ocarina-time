@@ -123,8 +123,8 @@
 .ocarina-glaze { fill: url(#ocarina-glaze); }
 .ocarina-reflection { fill: none; stroke: var(--ocarina-reflection); stroke-width: 9; stroke-linecap: round; filter: url(#ocarina-soften); }
 .ocarina-glint { fill: none; stroke: var(--ocarina-glaze); stroke-width: 2; stroke-linecap: round; }
-.ocarina-mottle { opacity: .3; mix-blend-mode: soft-light; }
-.ocarina-speckle { opacity: .16; mix-blend-mode: screen; }
+.ocarina-mottle { opacity: .18; mix-blend-mode: soft-light; }
+.ocarina-speckle { opacity: .09; mix-blend-mode: screen; }
 .ocarina-metal-detail { fill: none; stroke: var(--ocarina-metal-engraving); stroke-width: 1; opacity: .65; }
 .ocarina-stop-silver { stop-color: var(--ocarina-silver); }
 .ocarina-stop-silver-dark { stop-color: var(--ocarina-silver-dark); }
