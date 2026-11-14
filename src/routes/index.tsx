@@ -122,19 +122,19 @@ function Index() {
   if (!song) return null;
 
   return (
-    <main className="mx-auto flex max-w-md flex-col items-center gap-5 px-4 pb-10 pt-6">
+    <main className="mx-auto flex h-dvh max-w-md flex-col items-center gap-5 overflow-hidden px-4 pb-4 pt-6">
       <header className="text-center">
         <p className="font-serif text-xs tracking-[0.4em] text-muted-foreground">THE LEGEND OF ZELDA</p>
         <h1 className="gold-text font-display text-4xl font-bold leading-tight">Ocarina of Time</h1>
       </header>
 
-      <section className="w-full">
+      <section className="song-scroll w-full min-h-0 flex-1 overflow-y-auto">
         <h2 className="gold-text mb-2 text-center font-serif text-lg font-bold tracking-widest">SONGS</h2>
-        <ul className="grid grid-cols-2 gap-2">
+        <ul className="grid grid-cols-1 gap-2.5 pb-16">
           {SONGS.map((s, i) => (
             <li key={s.name}>
               <button onClick={() => playSong(i)}
-                className={`panel w-full rounded-lg px-3 py-2 text-left font-serif text-sm transition-colors ${i === selected ? "text-gold" : "text-foreground"}`}>
+                className={`panel w-full rounded-lg px-4 py-3.5 text-left font-serif text-base transition-colors ${i === selected ? "text-gold" : "text-foreground"}`}>
                 ♪ {s.name}
               </button>
             </li>

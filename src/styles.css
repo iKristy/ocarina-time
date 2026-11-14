@@ -122,6 +122,12 @@
 .ocarina-sequence .seq-btn { border-radius: 9999px; }
 .ocarina-sequence .seq-btn:focus-visible { outline: 2px solid var(--sequence-focus); outline-offset: 3px; }
 .ocarina-sequence .seq-btn-r { border-radius: 6px; }
+.song-scroll {
+  scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(to bottom, black 72%, transparent 98%);
+  mask-image: linear-gradient(to bottom, black 72%, transparent 98%);
+}
+.song-scroll::-webkit-scrollbar { display: none; }
 @media (max-width: 380px) {
   .ocarina-sequence { gap: 5px; }
   .ocarina-sequence .seq-btn { font-size: 0.875rem; }
