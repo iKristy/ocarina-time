@@ -118,6 +118,7 @@
   gap: 7px;
 }
 .ocarina-sequence .seq-btn { width: 100%; height: auto; aspect-ratio: 1; min-width: 0; padding: 0; font-size: 1rem; font-family: var(--font-controls); font-weight: 700; color: var(--sequence-label); background: linear-gradient(180deg, var(--sequence-top), var(--sequence-bottom)); touch-action: manipulation; }
+.ocarina-sequence .seq-btn { border-radius: 9999px; }
 .ocarina-sequence .seq-btn:focus-visible { outline: 2px solid var(--sequence-glow); outline-offset: 3px; }
 .ocarina-sequence .seq-btn-r { border-radius: 6px; }
 @media (max-width: 380px) {
