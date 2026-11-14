@@ -47,13 +47,13 @@ it("plays the selected sequence note when tapped", () => {
   expect(pitches[0]).toBe(987.77);
 });
 
-it("spaces song notes 600 milliseconds apart for a slightly slower pace", async () => {
+it("spaces song notes 520 milliseconds apart for a slightly faster pace", async () => {
   vi.useFakeTimers();
   const Page = Route.options.component as ComponentType;
   render(createElement(Page));
   const timeout = vi.spyOn(globalThis, "setTimeout");
   fireEvent.click(screen.getByRole("button", { name: /Saria's Song/ }));
-  expect(timeout).toHaveBeenCalledWith(expect.any(Function), 600);
+  expect(timeout).toHaveBeenCalledWith(expect.any(Function), 520);
   await vi.runAllTimersAsync();
   timeout.mockRestore();
 });
