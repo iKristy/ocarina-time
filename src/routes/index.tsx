@@ -151,21 +151,39 @@ function Index() {
       <section className="ocarina-display" aria-label="Ocarina button sequence">
         <svg className="ocarina-shape" viewBox="0 0 420 300" role="img" aria-label="Blue Ocarina of Time">
           <defs>
-            <linearGradient id="ocarina-body" x1="0" y1="0" x2="0.65" y2="1">
+            <radialGradient id="ocarina-body" cx="36%" cy="28%" r="78%" gradientTransform="translate(0 .03) scale(1 .94)">
               <stop offset="0" className="ocarina-stop-light" />
-              <stop offset="0.5" className="ocarina-stop-blue" />
-              <stop offset="1" className="ocarina-stop-dark" />
-            </linearGradient>
+              <stop offset="0.35" className="ocarina-stop-blue" />
+              <stop offset="0.78" className="ocarina-stop-dark" />
+              <stop offset="1" className="ocarina-stop-deep" />
+            </radialGradient>
+            <radialGradient id="ocarina-glaze" cx="35%" cy="29%" r="55%" gradientTransform="translate(0 .18) scale(1 .42)">
+              <stop offset="0" className="ocarina-stop-glaze" />
+              <stop offset="0.35" className="ocarina-stop-glaze" stopOpacity=".25" />
+              <stop offset="1" className="ocarina-stop-clear" />
+            </radialGradient>
+            <filter id="ocarina-soften"><feGaussianBlur stdDeviation="3" /></filter>
+            <clipPath id="ocarina-surface"><use href="#ocarina-outline" /></clipPath>
             <linearGradient id="ocarina-collar" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0" className="ocarina-stop-silver-dark" />
-              <stop offset="0.45" className="ocarina-stop-silver" />
+              <stop offset="0.25" className="ocarina-stop-silver" />
+              <stop offset="0.38" className="ocarina-stop-glint" />
+              <stop offset="0.52" className="ocarina-stop-silver-dark" />
+              <stop offset="0.7" className="ocarina-stop-silver" />
               <stop offset="1" className="ocarina-stop-silver-dark" />
             </linearGradient>
           </defs>
-          <path className="ocarina-body" d="M 146 127 C 151 116 154 106 155 96 L 159 76 C 161 58 166 53 180 53 C 194 53 199 59 201 76 L 205 101 Q 206 115 217 126 C 275 127 345 143 382 166 C 400 177 412 189 406 202 C 392 228 310 250 233 263 C 160 274 92 264 52 242 C 28 228 22 206 34 184 C 54 156 96 136 146 127 Z" />
+          <path id="ocarina-outline" className="ocarina-body" d="M 146 127 C 151 116 154 106 155 96 L 159 76 C 161 58 166 53 180 53 C 194 53 199 59 201 76 L 205 101 Q 206 115 217 126 C 275 127 345 143 382 166 C 400 177 412 189 406 202 C 392 228 310 250 233 263 C 160 274 92 264 52 242 C 28 228 22 206 34 184 C 54 156 96 136 146 127 Z" />
+          <g clipPath="url(#ocarina-surface)">
+            <use href="#ocarina-outline" className="ocarina-glaze" />
+            <path className="ocarina-contour" d="M 33 216 C 72 279 235 279 392 219" />
+            <path className="ocarina-reflection" d="M 52 232 C 123 272 275 250 361 221" />
+            <path className="ocarina-highlight" d="M 58 166 C 90 142 121 141 139 139 M 171 65 Q 166 78 167 94" />
+            <path className="ocarina-glint" d="M 63 161 Q 99 140 132 141 M 170 65 L 168 85" />
+            <path className="ocarina-reflection" d="M 245 137 Q 331 151 385 184" />
+          </g>
           <path className="ocarina-collar" d="M 154 100 Q 180 104 206 100 C 208 113 210 122 219 128 Q 181 143 142 128 C 150 121 152 113 154 100 Z" />
-          <path className="ocarina-highlight" d="M 48 174 C 78 146 113 143 139 140 M 173 69 Q 170 80 170 92" />
-          <path className="ocarina-contour" d="M 53 235 C 127 267 267 255 349 224" />
+          <path className="ocarina-metal-detail" d="M 154 104 Q 180 109 207 104 M 147 127 Q 181 139 214 127 M 160 113 l -5 6 9 5 -2 -8 8 8 M 199 111 l 7 7 -9 7 2 -9 -8 8" />
           <g className="ocarina-triforce" transform="translate(181 117) scale(0.6)">
             <path d="M 0 -23 L -12 -2 L 12 -2 Z M -12 -2 L -24 19 L 0 19 Z M 12 -2 L 0 19 L 24 19 Z" />
           </g>
