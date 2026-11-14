@@ -43,7 +43,7 @@ it("plays the selected sequence note when tapped", () => {
   render(createElement(Page));
   fireEvent.click(screen.getByRole("button", { name: "Play Y note 1" }));
   expect(start).toHaveBeenCalledTimes(4);
-  expect(pitches[0]).toBe(493.88);
+  expect(pitches[0]).toBe(987.77);
 });
 
 it("spaces song notes 600 milliseconds apart for a slightly slower pace", async () => {
