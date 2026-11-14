@@ -101,6 +101,7 @@
 .ocarina-display {
   position: relative;
   width: 100%;
+  margin-top: -2.5rem;
   aspect-ratio: 420 / 300;
   filter: drop-shadow(0 12px 12px var(--ocarina-shadow));
 }
