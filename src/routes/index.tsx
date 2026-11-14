@@ -102,13 +102,13 @@ function Index() {
         <ul className="grid grid-cols-1 gap-2.5 px-2 pb-16">
           {SONGS.map((s, i) => (
             <li key={s.name}>
-              <button onClick={() => playSong(i)}
+              <Button variant="ghost" onClick={() => playSong(i)}
                 data-playing={i === selected && isPlaying}
-                className={`panel song-item flex w-full items-center gap-3 rounded-lg px-4 py-3.5 text-left font-body text-lg transition-all ${i === selected ? "song-selected text-gold" : "text-foreground"}`}>
+                className={`panel song-item flex h-auto w-full items-center justify-start gap-3 whitespace-normal rounded-lg px-4 py-3.5 text-left font-body text-lg font-normal ${i === selected ? "song-selected text-gold" : "text-foreground"}`}>
                 <span aria-hidden="true" className="song-sheen-layer" />
                 <span aria-hidden="true" data-playing={i === selected && isPlaying} className="song-note-icon inline-flex w-5 shrink-0 justify-center text-2xl leading-none">♪</span>
                 <span>{s.name}</span>
-              </button>
+              </Button>
             </li>
           ))}
         </ul>
