@@ -173,19 +173,21 @@ function Index() {
               <stop offset="1" className="ocarina-stop-silver-dark" />
             </linearGradient>
           </defs>
-          <path id="ocarina-outline" className="ocarina-body" d="M 146 127 C 151 116 154 106 155 96 L 159 76 C 161 58 166 53 180 53 C 194 53 199 59 201 76 L 205 101 Q 206 115 217 126 C 275 127 345 143 382 166 C 400 177 412 189 406 202 C 392 228 310 250 233 263 C 160 274 92 264 52 242 C 32 230 33 207 40 184 C 46 161 70 148 146 127 Z" />
+          <path id="ocarina-outline" className="ocarina-body" d="M 121 127 C 126 116 129 106 130 96 L 134 76 C 136 58 141 53 155 53 C 169 53 174 59 176 76 L 180 101 Q 181 115 192 126 C 252 138 328 159 387 183 C 413 193 415 204 393 213 C 325 237 234 258 151 265 C 89 270 43 255 28 228 C 10 194 29 161 66 143 C 82 135 101 130 121 127 Z" />
           <g clipPath="url(#ocarina-surface)">
             <use href="#ocarina-outline" className="ocarina-glaze" />
-            <path className="ocarina-contour" d="M 33 216 C 72 279 235 279 392 219" />
-            <path className="ocarina-reflection" d="M 52 232 C 123 272 275 250 361 221" />
-            <path className="ocarina-highlight" d="M 58 166 C 90 142 121 141 139 139 M 171 65 Q 166 78 167 94" />
-            <path className="ocarina-glint" d="M 63 161 Q 99 140 132 141 M 170 65 L 168 85" />
-            <path className="ocarina-reflection" d="M 245 137 Q 331 151 385 184" />
+            <path className="ocarina-contour" d="M 28 220 C 53 276 179 283 393 211" />
+            <path className="ocarina-reflection" d="M 44 236 C 101 274 239 247 367 220" />
+            <path className="ocarina-highlight" d="M 43 169 C 65 147 92 140 114 139 M 146 65 Q 141 78 142 94" />
+            <path className="ocarina-glint" d="M 48 164 Q 75 143 107 141 M 145 65 L 143 85" />
+            <path className="ocarina-reflection" d="M 215 144 Q 302 164 383 195" />
           </g>
+          <g transform="translate(-25 0)">
           <path className="ocarina-collar" d="M 154 100 Q 180 104 206 100 C 208 113 210 122 219 128 Q 181 143 142 128 C 150 121 152 113 154 100 Z" />
           <path className="ocarina-metal-detail" d="M 154 104 Q 180 109 207 104 M 147 127 Q 181 139 214 127 M 160 113 l -5 6 9 5 -2 -8 8 8 M 199 111 l 7 7 -9 7 2 -9 -8 8" />
           <g className="ocarina-triforce" transform="translate(181 117) scale(0.6)">
             <path d="M 0 -23 L -12 -2 L 12 -2 Z M -12 -2 L -24 19 L 0 19 Z M 12 -2 L 0 19 L 24 19 Z" />
+          </g>
           </g>
         </svg>
         <div className="ocarina-sequence">
