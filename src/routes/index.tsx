@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { RotateCcw } from "lucide-react";
+import { Check, RotateCcw } from "lucide-react";
 import { AVAILABLE_NOTES, SCARECROW_LENGTH, readScarecrow, saveScarecrow, resetScarecrow } from "@/lib/scarecrow-song";
 import { createOcarinaPlayer, SONGS, songTiming, type Note } from "@/lib/ocarina-playback";
 
@@ -148,8 +148,13 @@ function Index() {
               <span aria-hidden="true" className="song-selected-frame" />
               <span aria-hidden="true" className="song-sheen-layer" />
               <span aria-hidden="true" data-playing={selected === SONGS.length && isPlaying} className="song-note-icon inline-flex w-5 shrink-0 justify-center text-2xl leading-none">♪</span>
-              <span>Scarecrow’s Song</span>
-              {!scarecrow && <span className="ml-auto text-sm text-muted-foreground">{recording ? `${draft.length}/8` : "Empty"}</span>}
+              <span className="min-w-0 flex-1 leading-tight">
+                <span className="block">Scarecrow’s Song</span>
+                <span className="scarecrow-status" data-state={recording ? "recording" : scarecrow ? "saved" : "empty"} role="status" aria-live="polite" aria-atomic="true">
+                  {recording ? <><span className="scarecrow-recording-dot" aria-hidden="true" />Recording <span className="scarecrow-count">{draft.length}/{SCARECROW_LENGTH}</span></>
+                    : scarecrow ? <><Check aria-hidden="true" />Saved</> : "Empty"}
+                </span>
+              </span>
             </Button>
             {scarecrow && <Button variant="ghost" size="icon" className="scarecrow-reset" title="Reset Scarecrow’s Song" aria-label="Reset Scarecrow’s Song"
               onClick={() => { resetScarecrow(); setScarecrow(null); beginRecording(); }}><RotateCcw /></Button>}
