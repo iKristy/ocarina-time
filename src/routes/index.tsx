@@ -17,9 +17,9 @@ export const Route = createFileRoute("/")({
 });
 
 type Note = "A" | "D" | "R" | "L" | "U";
-const FREQ: Record<Note, number> = { A: 293.66, D: 349.23, R: 440, L: 493.88, U: 587.33 };
+const FREQ: Record<Note, number> = { A: 587.33, D: 698.46, R: 880, L: 987.77, U: 1174.66 };
 // Nintendo Switch mapping: X = C-up, Y = C-left, B = C-down, A = C-right, R = A button
-const SYMBOL: Record<Note, string> = { A: "R", D: "B", R: "A", L: "Y", U: "X" };
+const SYMBOL: Record<Note, string> = { A: "L", D: "R", R: "A", L: "Y", U: "X" };
 const BTN_CLS: Record<Note, string> = { A: "seq-btn-r", D: "", R: "", L: "", U: "" };
 
 const SONGS: { name: string; notes: string; tone: string }[] = [
