@@ -176,6 +176,11 @@ main > *:not(.triforce-bg) { position: relative; z-index: 1; }
 @media (max-width: 639px) {
   .triforce-bg { width: 135vw; }
 }
+@property --song-border-color {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
 .song-selected {
   --song-border-color: var(--gold);
   border-color: var(--song-border-color) !important;
@@ -184,7 +189,11 @@ main > *:not(.triforce-bg) { position: relative; z-index: 1; }
   transform: scale(1.02);
   transition: border-color .2s, box-shadow .2s, background .2s, transform .2s;
 }
-.song-selected[data-playing="true"] { --song-border-color: var(--crest-gold-light); }
+.song-selected[data-playing="true"] { animation: song-border-color 1.2s ease-in-out infinite; }
+@keyframes song-border-color {
+  0%, 100% { --song-border-color: var(--gold); }
+  50% { --song-border-color: var(--crest-gold-light); }
+}
 .song-scroll {
   scrollbar-width: none;
   -webkit-mask-image: linear-gradient(to bottom, black 88%, transparent 98%);
@@ -206,6 +215,7 @@ main > *:not(.triforce-bg) { position: relative; z-index: 1; }
   50% { transform: translateY(-2px) rotate(5deg); }
 }
 @media (prefers-reduced-motion: reduce) {
+  .song-selected[data-playing="true"] { animation: none; --song-border-color: var(--crest-gold-light); }
   .song-note-icon[data-playing="true"] { animation: none; }
 }
 .song-scroll > ul { padding-inline: 1rem; padding-top: .5rem; }
