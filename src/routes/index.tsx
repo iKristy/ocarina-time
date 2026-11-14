@@ -213,7 +213,6 @@ function Index() {
             <path className="ocarina-contour" d="M 30 228 C 72 283 225 283 393 208" />
             <path className="ocarina-reflection" d="M 46 241 C 108 279 253 248 369 222" />
             <path className="ocarina-highlight" d="M 44 174 C 61 155 77 148 93 144 M 121 67 Q 118 78 118 94" />
-            <path className="ocarina-glint" d="M 49 169 Q 67 152 88 145 M 120 66 L 118 85" />
             <path className="ocarina-reflection" d="M 229 137 Q 315 150 386 183" />
           </g>
           <g transform="translate(-45 0)">
