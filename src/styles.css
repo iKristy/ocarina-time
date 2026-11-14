@@ -124,8 +124,9 @@
 .ocarina-sequence .seq-btn-r { border-radius: 6px; }
 .triforce-bg {
   position: fixed;
-  inset: 0;
-  margin: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: min(230vw, 1600px);
   height: auto;
   color: black;
