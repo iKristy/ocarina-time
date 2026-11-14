@@ -33,3 +33,4 @@ use the editor.
 - Keep song beat data and lazy browser audio synthesis in a shared playback module; schedule voices on the audio clock so per-song rhythms remain accurate and playback can be interrupted.
 - Keep song row content at fixed geometry; crossfade idle and selected frames with matching scale transitions, and animate border color on a separate inner layer so playback and hover never reposition the frame.
 - Draw song keyboard focus on a separate pseudo-element sharing the frame's scale; change only border colors on press and remove scroll fades during focus so indicators remain aligned and visible without moving content.
+- Keep home-screen support manifest-only with PNG and maskable icons; add no app-shell service worker unless offline support is explicitly requested, to avoid stale preview caches.
