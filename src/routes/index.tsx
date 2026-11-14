@@ -18,7 +18,8 @@ export const Route = createFileRoute("/")({
 
 type Note = "A" | "D" | "R" | "L" | "U";
 const FREQ: Record<Note, number> = { A: 293.66, D: 349.23, R: 440, L: 493.88, U: 587.33 };
-const SYMBOL: Record<Note, string> = { A: "A", D: "▼", R: "▶", L: "◀", U: "▲" };
+// Nintendo Switch mapping: X = C-up, Y = C-left, B = C-down, A = C-right, R = A button
+const SYMBOL: Record<Note, string> = { A: "R", D: "B", R: "A", L: "Y", U: "X" };
 
 const SONGS: { name: string; notes: string; tone: string }[] = [
   { name: "Zelda's Lullaby", notes: "LURLUR", tone: "royal" },
@@ -116,8 +117,9 @@ function Index() {
           <Btn n="R" cls="h-16 w-16 bg-cbtn text-background text-2xl" />
           <span /><Btn n="D" cls="h-16 w-16 bg-cbtn text-background text-2xl" />
         </div>
-        <Btn n="A" cls="h-20 w-20 bg-abtn text-primary-foreground text-3xl" />
+        <Btn n="A" cls="h-20 w-20 bg-abtn text-primary-foreground text-2xl" />
       </section>
+      <p className="-mt-2 text-center text-xs text-muted-foreground">Switch controls: X · Y · B · A on the right stick buttons, R for the blue note</p>
 
       <section className="w-full">
         <h2 className="gold-text mb-2 text-center font-serif text-lg font-bold tracking-widest">SONGS</h2>
