@@ -38,25 +38,51 @@ const SONGS: { name: string; notes: string; tone: string }[] = [
 ];
 
 let ctx: AudioContext | null = null;
+let breathBuffer: AudioBuffer | null = null;
 function play(n: Note, dur = 0.45) {
   ctx ??= new AudioContext();
   if (ctx.state === "suspended") void ctx.resume();
   const t = ctx.currentTime;
   const g = ctx.createGain();
   const f = ctx.createBiquadFilter();
-  f.type = "lowpass"; f.frequency.value = 2200;
+  f.type = "lowpass"; f.frequency.value = FREQ[n] * 3.5; f.Q.value = 0.5;
   const o = ctx.createOscillator(); o.type = "sine"; o.frequency.value = FREQ[n];
-  const o2 = ctx.createOscillator(); o2.type = "triangle"; o2.frequency.value = FREQ[n] * 2;
-  const g2 = ctx.createGain(); g2.gain.value = 0.08;
-  const lfo = ctx.createOscillator(); lfo.frequency.value = 5.5;
-  const lg = ctx.createGain(); lg.gain.value = 3;
-  lfo.connect(lg).connect(o.frequency);
+  const o2 = ctx.createOscillator(); o2.type = "sine"; o2.frequency.value = FREQ[n] * 2;
+  const g2 = ctx.createGain(); g2.gain.value = 0.035;
+  // Air pressure settles into pitch; gentle vibrato arrives after the attack.
+  for (const oscillator of [o, o2]) {
+    oscillator.detune.setValueAtTime(-9, t);
+    oscillator.detune.linearRampToValueAtTime(0, t + 0.065);
+  }
+  const lfo = ctx.createOscillator(); lfo.frequency.value = 4.8;
+  const lg = ctx.createGain();
+  lg.gain.setValueAtTime(0, t);
+  lg.gain.linearRampToValueAtTime(0, t + 0.1);
+  lg.gain.linearRampToValueAtTime(5, t + dur * 0.65);
+  lfo.connect(lg);
+  lg.connect(o.detune); lg.connect(o2.detune);
+
+  // A quiet filtered air layer adds the breath missing from a pure sine tone.
+  if (!breathBuffer) {
+    breathBuffer = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
+    const samples = breathBuffer.getChannelData(0);
+    for (let i = 0; i < samples.length; i++) samples[i] = Math.random() * 2 - 1;
+  }
+  const breath = ctx.createBufferSource(); breath.buffer = breathBuffer; breath.loop = true;
+  const airFilter = ctx.createBiquadFilter();
+  airFilter.type = "bandpass"; airFilter.frequency.value = 1700; airFilter.Q.value = 0.8;
+  const airGain = ctx.createGain();
+  airGain.gain.setValueAtTime(0, t);
+  airGain.gain.linearRampToValueAtTime(0.026, t + 0.025);
+  airGain.gain.linearRampToValueAtTime(0.009, t + 0.1);
+  breath.connect(airFilter).connect(airGain).connect(g);
   o.connect(g); o2.connect(g2).connect(g); g.connect(f).connect(ctx.destination);
   g.gain.setValueAtTime(0, t);
-  g.gain.linearRampToValueAtTime(0.35, t + 0.04);
-  g.gain.setValueAtTime(0.3, t + dur - 0.08);
+  g.gain.linearRampToValueAtTime(0.32, t + 0.055);
+  g.gain.linearRampToValueAtTime(0.29, t + 0.13);
+  g.gain.linearRampToValueAtTime(0.27, t + dur - 0.09);
   g.gain.linearRampToValueAtTime(0, t + dur);
-  [o, o2, lfo].forEach((x) => { x.start(t); x.stop(t + dur + 0.05); });
+  [o, o2, lfo, breath].forEach((x) => { x.start(t); x.stop(t + dur + 0.05); });
 }
 
 function Index() {
