@@ -173,7 +173,7 @@ function Index() {
               <stop offset="1" className="ocarina-stop-silver-dark" />
             </linearGradient>
           </defs>
-          <path id="ocarina-outline" className="ocarina-body" d="M 146 127 C 151 116 154 106 155 96 L 159 76 C 161 58 166 53 180 53 C 194 53 199 59 201 76 L 205 101 Q 206 115 217 126 C 275 127 345 143 382 166 C 400 177 412 189 406 202 C 392 228 310 250 233 263 C 160 274 92 264 52 242 C 28 228 22 206 34 184 C 54 156 96 136 146 127 Z" />
+          <path id="ocarina-outline" className="ocarina-body" d="M 146 127 C 151 116 154 106 155 96 L 159 76 C 161 58 166 53 180 53 C 194 53 199 59 201 76 L 205 101 Q 206 115 217 126 C 275 127 345 143 382 166 C 400 177 412 189 406 202 C 392 228 310 250 233 263 C 160 274 92 264 52 242 C 32 230 33 207 40 184 C 46 161 70 148 146 127 Z" />
           <g clipPath="url(#ocarina-surface)">
             <use href="#ocarina-outline" className="ocarina-glaze" />
             <path className="ocarina-contour" d="M 33 216 C 72 279 235 279 392 219" />
