@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
 
 // Nintendo Switch button labels for the original five ocarina notes.
 const SYMBOL: Record<Note, string> = { A: "L", D: "R", R: "A", L: "Y", U: "X" };
-const BTN_CLS: Record<Note, string> = { A: "seq-btn-r", D: "", R: "", L: "", U: "" };
+const BTN_CLS: Record<Note, string> = { A: "seq-btn-r", D: "seq-btn-r", R: "", L: "", U: "" };
 
 function Index() {
   const [selected, setSelected] = useState(0);
