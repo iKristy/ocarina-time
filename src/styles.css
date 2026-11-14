@@ -128,8 +128,8 @@
   margin: auto;
   width: min(230vw, 1600px);
   height: auto;
-  color: var(--gold);
-  opacity: 0.05;
+  color: black;
+  opacity: 0.35;
   pointer-events: none;
   z-index: 0;
 }
