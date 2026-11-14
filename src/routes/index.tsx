@@ -37,6 +37,18 @@ const SONGS: { name: string; notes: string; tone: string }[] = [
   { name: "Prelude of Light", notes: "URURLU", tone: "light" },
 ];
 
+// Each tone gives a song its own pace and echo: forest/fire are brisk and dry,
+// water/spirit/shadow linger with a deeper temple reverb.
+const TONE_STYLE: Record<string, { dur: number; gap: number; wet: number }> = {
+  royal: { dur: 0.5, gap: 520, wet: 0.22 },
+  forest: { dur: 0.42, gap: 450, wet: 0.16 },
+  fire: { dur: 0.4, gap: 430, wet: 0.14 },
+  water: { dur: 0.6, gap: 640, wet: 0.3 },
+  spirit: { dur: 0.62, gap: 660, wet: 0.34 },
+  shadow: { dur: 0.58, gap: 620, wet: 0.3 },
+  light: { dur: 0.52, gap: 540, wet: 0.26 },
+};
+
 let ctx: AudioContext | null = null;
 let breathBuffer: AudioBuffer | null = null;
 let reverbIn: GainNode | null = null;
@@ -57,7 +69,7 @@ function reverbSend(c: AudioContext) {
   reverbIn.connect(convolver).connect(wet).connect(c.destination);
   return reverbIn;
 }
-function play(n: Note, dur = 0.45) {
+function play(n: Note, dur = 0.45, wet = 0.22) {
   ctx ??= new AudioContext();
   if (ctx.state === "suspended") void ctx.resume();
   const t = ctx.currentTime;
@@ -95,7 +107,8 @@ function play(n: Note, dur = 0.45) {
   airGain.gain.linearRampToValueAtTime(0.009, t + 0.1);
   breath.connect(airFilter).connect(airGain).connect(g);
   o.connect(g); o2.connect(g2).connect(g); g.connect(f).connect(ctx.destination);
-  g.connect(reverbSend(ctx));
+  const send = ctx.createGain(); send.gain.value = wet;
+  g.connect(send).connect(reverbSend(ctx));
   g.gain.setValueAtTime(0, t);
   g.gain.linearRampToValueAtTime(0.32, t + 0.055);
   g.gain.linearRampToValueAtTime(0.29, t + 0.13);
@@ -126,12 +139,13 @@ function Index() {
     const nextSong = SONGS[i];
     if (busy.current || !nextSong) return;
     busy.current = true; setSelected(i);
+    const style = TONE_STYLE[nextSong.tone] ?? TONE_STYLE["royal"]!;
     const notes = nextSong.notes.split("") as Note[];
     for (let j = 0; j < notes.length; j++) {
       const note = notes[j];
       if (!note) continue;
-      play(note, 0.5); setPlayingNote(j);
-      await new Promise((r) => setTimeout(r, 520));
+      play(note, style.dur, style.wet); setPlayingNote(j);
+      await new Promise((r) => setTimeout(r, style.gap));
     }
     setPlayingNote(null);
     busy.current = false;
