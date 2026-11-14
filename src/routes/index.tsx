@@ -128,7 +128,8 @@ function Index() {
         <h1 className="gold-text font-display text-4xl font-bold leading-tight">Ocarina of Time</h1>
       </header>
 
-      <section className="song-scroll w-full min-h-0 flex-1 overflow-y-auto">
+      <section className="song-scroll w-full min-h-0 flex-1 overflow-y-auto"
+        onScroll={(e) => { e.currentTarget.dataset.scrolled = e.currentTarget.scrollTop > 8 ? "true" : "false"; }}>
         <h2 className="gold-text mb-2 text-center font-serif text-lg font-bold tracking-widest">SONGS</h2>
         <ul className="grid grid-cols-1 gap-2.5 pb-16">
           {SONGS.map((s, i) => (

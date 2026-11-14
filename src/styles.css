@@ -127,6 +127,10 @@
   -webkit-mask-image: linear-gradient(to bottom, black 72%, transparent 98%);
   mask-image: linear-gradient(to bottom, black 72%, transparent 98%);
 }
+.song-scroll[data-scrolled="true"] {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 72%, transparent 98%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 72%, transparent 98%);
+}
 .song-scroll::-webkit-scrollbar { display: none; }
 @media (max-width: 380px) {
   .ocarina-sequence { gap: 5px; }
