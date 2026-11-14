@@ -58,38 +58,23 @@ function play(n: Note, dur = 0.45) {
 }
 
 function Index() {
-  const [active, setActive] = useState<Note | null>(null);
-  const [typed, setTyped] = useState<Note[]>([]);
   const [selected, setSelected] = useState(0);
-  const [found, setFound] = useState<string | null>(null);
+  const [playingNote, setPlayingNote] = useState<number | null>(null);
   const busy = useRef(false);
-
-  const flash = (n: Note) => { setActive(n); setTimeout(() => setActive(null), 180); };
-
-  const press = (n: Note) => {
-    play(n); flash(n);
-    const next = [...typed, n].slice(-8);
-    const s = next.join("");
-    const match = SONGS.find((x) => s.endsWith(x.notes));
-    if (match) { setFound(match.name); setTyped([]); setTimeout(() => setFound(null), 2500); }
-    else setTyped(next);
-  };
 
   const playSong = async (i: number) => {
     if (busy.current) return;
-    busy.current = true; setSelected(i); setTyped([]);
-    for (const n of SONGS[i]!.notes.split("") as Note[]) {
-      play(n, 0.5); flash(n);
+    busy.current = true; setSelected(i);
+    const notes = SONGS[i]!.notes.split("") as Note[];
+    for (let j = 0; j < notes.length; j++) {
+      play(notes[j]!, 0.5); setPlayingNote(j);
       await new Promise((r) => setTimeout(r, 520));
     }
+    setPlayingNote(null);
     busy.current = false;
   };
 
   const song = SONGS[selected]!;
-  const Btn = ({ n, cls }: { n: Note; cls: string }) => (
-    <button aria-label={`Note ${SYMBOL[n]}`} data-on={active === n} onPointerDown={() => press(n)}
-      className={`note-btn ${cls}`}>{SYMBOL[n]}</button>
-  );
 
   return (
     <main className="mx-auto flex max-w-md flex-col items-center gap-5 px-4 pb-10 pt-6">
@@ -101,25 +86,17 @@ function Index() {
       <img src={ocarina} alt="The blue Ocarina of Time" width={1024} height={768} className="floaty w-60 drop-shadow-2xl" />
 
       <section className="panel w-full rounded-lg p-4 text-center">
-        <div className="font-serif text-sm text-gold">{found ? `You played ${found}!` : song.name}</div>
+        <div className="font-serif text-sm text-gold">{song.name}</div>
         <div className="mt-2 flex min-h-10 justify-center gap-2 text-2xl">
-          {(found ? [] : typed.length ? typed : (song.notes.split("") as Note[])).map((n, i) => (
-            <span key={i} className={n === "A" ? "font-serif font-bold text-abtn" : "text-cbtn"}>{SYMBOL[n]}</span>
+          {(song.notes.split("") as Note[]).map((n, i) => (
+            <span key={i} data-on={playingNote === i}
+              className={`rounded px-1 transition-colors ${n === "A" ? "font-serif font-bold text-abtn" : "text-cbtn"} ${playingNote === i ? "bg-gold/20" : ""}`}>
+              {SYMBOL[n]}
+            </span>
           ))}
         </div>
-        <div className="mt-1 text-sm text-muted-foreground">{typed.length ? "Playing freely…" : "Tap below to play, or pick a song"}</div>
+        <div className="mt-1 text-sm text-muted-foreground">Pick a song below to hear it</div>
       </section>
-
-      <section className="grid grid-cols-[1fr_auto] items-center gap-6">
-        <div className="grid grid-cols-3 grid-rows-3 gap-2">
-          <span /><Btn n="U" cls="col-start-2 h-16 w-16 bg-cbtn text-background text-2xl" /><span />
-          <Btn n="L" cls="h-16 w-16 bg-cbtn text-background text-2xl" /><span />
-          <Btn n="R" cls="h-16 w-16 bg-cbtn text-background text-2xl" />
-          <span /><Btn n="D" cls="h-16 w-16 bg-cbtn text-background text-2xl" />
-        </div>
-        <Btn n="A" cls="h-20 w-20 bg-abtn text-primary-foreground text-2xl" />
-      </section>
-      <p className="-mt-2 text-center text-xs text-muted-foreground">Switch controls: X · Y · B · A on the right stick buttons, R for the blue note</p>
 
       <section className="w-full">
         <h2 className="gold-text mb-2 text-center font-serif text-lg font-bold tracking-widest">SONGS</h2>
