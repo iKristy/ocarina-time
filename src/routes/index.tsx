@@ -95,18 +95,22 @@ function Index() {
               <stop offset="0.5" className="ocarina-stop-blue" />
               <stop offset="1" className="ocarina-stop-dark" />
             </linearGradient>
+            <linearGradient id="ocarina-collar" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" className="ocarina-stop-silver-dark" />
+              <stop offset="0.45" className="ocarina-stop-silver" />
+              <stop offset="1" className="ocarina-stop-silver-dark" />
+            </linearGradient>
           </defs>
-          <path className="ocarina-body" d="M 24 183 C 51 170 73 143 110 122 C 156 96 216 88 262 105 C 272 108 278 106 282 96 L 304 39 Q 307 29 316 31 L 345 42 Q 354 45 350 56 L 332 117 C 330 125 335 130 345 136 C 382 157 397 192 382 223 C 365 261 308 279 250 276 C 171 273 114 248 67 218 C 49 207 32 200 24 194 Q 16 189 24 183 Z" />
-          <path className="ocarina-rim" d="M 305 39 L 349 55 M 302 48 L 346 64" />
-          <path className="ocarina-highlight" d="M 64 173 C 107 130 172 104 228 115 M 291 98 L 313 47" />
-          <path className="ocarina-contour" d="M 85 223 C 169 268 282 288 351 245" />
-          <g className="ocarina-triforce" transform="translate(307 134) rotate(18)">
+          <path className="ocarina-body" d="M 146 127 C 151 116 154 106 155 96 L 159 76 C 161 58 166 53 180 53 C 194 53 199 59 201 76 L 205 101 Q 206 115 217 126 C 275 127 341 145 375 168 C 391 179 401 190 395 202 C 380 230 307 252 233 263 C 157 276 84 265 43 240 C 17 224 13 203 25 181 C 46 150 91 133 146 127 Z" />
+          <path className="ocarina-collar" d="M 154 100 Q 180 104 206 100 C 208 113 210 122 219 128 Q 181 143 142 128 C 150 121 152 113 154 100 Z" />
+          <path className="ocarina-highlight" d="M 48 174 C 78 146 113 143 139 140 M 173 69 Q 170 80 170 92" />
+          <path className="ocarina-contour" d="M 53 235 C 127 267 267 255 349 224" />
+          <g className="ocarina-triforce" transform="translate(181 117) scale(0.6)">
             <path d="M 0 -23 L -12 -2 L 12 -2 Z M -12 -2 L -24 19 L 0 19 Z M 12 -2 L 0 19 L 24 19 Z" />
           </g>
-          <ellipse className="ocarina-hole" cx="124" cy="141" rx="10" ry="7" transform="rotate(-24 124 141)" />
-          <ellipse className="ocarina-hole" cx="164" cy="126" rx="10" ry="7" transform="rotate(-12 164 126)" />
-          <ellipse className="ocarina-hole" cx="207" cy="126" rx="10" ry="7" />
-          <ellipse className="ocarina-hole" cx="248" cy="140" rx="10" ry="7" transform="rotate(18 248 140)" />
+          <ellipse className="ocarina-hole" cx="109" cy="161" rx="11" ry="10" />
+          <ellipse className="ocarina-hole" cx="209" cy="162" rx="11" ry="10" />
+          <ellipse className="ocarina-hole" cx="306" cy="173" rx="11" ry="9" transform="rotate(-12 306 173)" />
         </svg>
         <div className="ocarina-sequence">
           {(song.notes.split("") as Note[]).map((n, i) => (
