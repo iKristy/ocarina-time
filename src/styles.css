@@ -35,6 +35,8 @@
   --crest-gold-light: #fff3c4;
   --crest-gold-mid: #e8c766;
   --crest-gold-dark: #a8771f;
+  --crest-metal-highlight: oklch(0.98 0.04 90 / 75%);
+  --crest-metal-shadow: oklch(0.2 0.03 75 / 65%);
   --song-selection-glow: 0 0 18px 3px oklch(0.8 0.13 85 / 55%);
   --cbtn: oklch(0.85 0.17 95);
   --abtn: oklch(0.6 0.17 250);
@@ -127,7 +129,12 @@
 .ocarina-collar { fill: url(#ocarina-collar); stroke: var(--ocarina-silver-dark); stroke-width: 1.5; }
 .ocarina-highlight { fill: none; stroke: var(--ocarina-shine); stroke-width: 8; stroke-linecap: round; filter: url(#ocarina-soften); }
 .ocarina-contour { fill: none; stroke: var(--ocarina-deep); stroke-width: 12; stroke-linecap: round; opacity: 0.55; filter: url(#ocarina-soften); }
-.ocarina-triforce { fill: url(#crest-gold); }
+.ocarina-triforce {
+  fill: url(#crest-gold);
+  overflow: visible;
+  filter: drop-shadow(0 -0.35px 0 var(--crest-metal-highlight)) drop-shadow(0 0.7px 0.45px var(--crest-metal-shadow));
+}
+.ocarina-triforce path { stroke: var(--crest-gold-dark); stroke-width: 0.25; stroke-linejoin: round; paint-order: stroke fill; }
 .crest-stop-light { stop-color: var(--crest-gold-light); }
 .crest-stop-mid { stop-color: var(--crest-gold-mid); }
 .crest-stop-dark { stop-color: var(--crest-gold-dark); }
