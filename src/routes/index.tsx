@@ -95,6 +95,7 @@ function play(n: Note, dur = 0.45) {
   airGain.gain.linearRampToValueAtTime(0.009, t + 0.1);
   breath.connect(airFilter).connect(airGain).connect(g);
   o.connect(g); o2.connect(g2).connect(g); g.connect(f).connect(ctx.destination);
+  g.connect(reverbSend(ctx));
   g.gain.setValueAtTime(0, t);
   g.gain.linearRampToValueAtTime(0.32, t + 0.055);
   g.gain.linearRampToValueAtTime(0.29, t + 0.13);
