@@ -130,8 +130,8 @@ function Index() {
     for (let j = 0; j < notes.length; j++) {
       const note = notes[j];
       if (!note) continue;
-      play(note, 0.58); setPlayingNote(j);
-      await new Promise((r) => setTimeout(r, 600));
+      play(note, 0.5); setPlayingNote(j);
+      await new Promise((r) => setTimeout(r, 520));
     }
     setPlayingNote(null);
     busy.current = false;
