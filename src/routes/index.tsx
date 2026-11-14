@@ -134,7 +134,7 @@ function Index() {
               <stop offset="0.35" className="ocarina-stop-glaze" stopOpacity=".25" />
               <stop offset="1" className="ocarina-stop-clear" />
             </radialGradient>
-            <filter id="ocarina-soften"><feGaussianBlur stdDeviation="3" /></filter>
+            <filter id="ocarina-soften" filterUnits="userSpaceOnUse" x="-20" y="-20" width="460" height="340"><feGaussianBlur stdDeviation="3" /></filter>
             <filter id="ceramic-mottle" x="0" y="0" width="100%" height="100%">
               <feTurbulence type="fractalNoise" baseFrequency="0.014 0.022" numOctaves="4" seed="7" />
               <feColorMatrix type="matrix" values="0 0 0 0 0.55  0 0 0 0 0.7  0 0 0 0 0.98  0 0 0 0.45 -0.08" />
