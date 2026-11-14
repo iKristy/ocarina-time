@@ -93,7 +93,7 @@
   text-shadow: var(--sequence-engraving);
   box-shadow: var(--sequence-shadow);
   transition: transform .1s, filter .1s;
-  &[data-on="true"], &:active { transform: translateY(2px) scale(.94); filter: brightness(.65); box-shadow: var(--sequence-pressed-shadow); }
+  &[data-on="true"], &:active { transform: translateY(2px); filter: brightness(.65); box-shadow: var(--sequence-pressed-shadow); }
 }
 @utility seq-btn-r {
   width: 2.9rem; border-radius: 0.7rem;
