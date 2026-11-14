@@ -60,6 +60,8 @@
   --sequence-top: oklch(0.5 0 0);
   --sequence-bottom: oklch(0.3 0 0);
   --sequence-label: oklch(0.98 0 0);
+  --sequence-reset-face: linear-gradient(180deg, oklch(0.99 0.015 95), oklch(0.92 0.025 95) 65%, oklch(0.83 0.035 90));
+  --sequence-reset-label: oklch(0.27 0.015 90);
   --sequence-focus: oklch(0.93 0 0);
   --sequence-pressed-shadow: inset 0 2px 4px oklch(0 0 0 / 45%);
   --sequence-face: radial-gradient(ellipse at 40% 12%, oklch(0.54 0 0 / 60%), transparent 62%), linear-gradient(180deg, var(--sequence-top), oklch(0.35 0 0) 65%, var(--sequence-bottom));
@@ -139,8 +141,6 @@
 .scarecrow-progress { position: absolute; left: 11%; top: 75%; width: 70%; display: flex; justify-content: center; gap: 7px; }
 .scarecrow-progress span { width: 6px; height: 6px; border-radius: 50%; border: 1px solid var(--gold); }
 .scarecrow-progress span[data-filled="true"] { background: var(--gold); }
-.ocarina-recording-reset { position: absolute; left: 46%; top: 79%; transform: translateX(-50%); color: var(--sequence-label); }
-.ocarina-recording-reset:focus-visible { outline: 2px solid var(--sequence-focus); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) {
   .ocarina-display[data-recording="true"] .ocarina-shape { animation: none; }
   .scarecrow-recording-dot { animation: none; }
@@ -190,6 +190,7 @@
 .ocarina-sequence .seq-btn { border-radius: 9999px; }
 .ocarina-sequence .seq-btn:focus-visible { outline: 2px solid var(--sequence-focus); outline-offset: 3px; }
 .ocarina-sequence .seq-btn-r { border-radius: 6px; }
+.ocarina-sequence .seq-btn-reset { background: var(--sequence-reset-face); color: var(--sequence-reset-label); text-shadow: none; }
 .triforce-bg {
   position: fixed;
   top: 50%;

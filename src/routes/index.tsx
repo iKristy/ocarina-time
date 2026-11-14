@@ -224,11 +224,11 @@ function Index() {
               {SYMBOL[n]}
             </Button>
           ))}
+          {recording && <Button variant="ghost" size="icon" className="seq-btn seq-btn-reset" title="Reset Scarecrow’s Song" aria-label="Reset Scarecrow’s Song" onClick={beginRecording}><RotateCcw /></Button>}
         </div>
         {recording && <div className="scarecrow-progress" role="status" aria-label={`${draft.length} of 8 notes recorded`}>
           {Array.from({ length: SCARECROW_LENGTH }, (_, i) => <span key={i} data-filled={i < draft.length} aria-hidden="true" />)}
         </div>}
-        {recording && <Button variant="ghost" size="icon" className="ocarina-recording-reset" title="Reset Scarecrow’s Song" aria-label="Reset Scarecrow’s Song" onClick={beginRecording}><RotateCcw /></Button>}
       </section>
     </main>
   );
