@@ -139,7 +139,7 @@ function Index() {
     const nextSong = SONGS[i];
     if (busy.current || !nextSong) return;
     busy.current = true; setSelected(i);
-    const style = TONE_STYLE[nextSong.tone] ?? TONE_STYLE.royal!;
+    const style = TONE_STYLE[nextSong.tone] ?? TONE_STYLE["royal"]!;
     const notes = nextSong.notes.split("") as Note[];
     for (let j = 0; j < notes.length; j++) {
       const note = notes[j];
