@@ -88,7 +88,7 @@ function Index() {
       </header>
 
       <section className="ocarina-display" aria-label="Ocarina button sequence">
-        <svg className="ocarina-shape" viewBox="0 0 420 280" role="img" aria-label="Blue Ocarina of Time">
+        <svg className="ocarina-shape" viewBox="0 0 420 300" role="img" aria-label="Blue Ocarina of Time">
           <defs>
             <linearGradient id="ocarina-body" x1="0" y1="0" x2="0.65" y2="1">
               <stop offset="0" className="ocarina-stop-light" />
@@ -96,15 +96,17 @@ function Index() {
               <stop offset="1" className="ocarina-stop-dark" />
             </linearGradient>
           </defs>
-          <path className="ocarina-body" d="M 38 125 C 56 85 119 68 184 77 C 220 81 244 94 265 99 L 335 25 Q 344 16 355 23 L 387 45 Q 396 52 388 64 L 329 147 C 351 173 346 204 319 224 C 278 255 199 267 132 246 C 79 230 25 202 27 168 Q 26 145 38 125 Z" />
-          <path className="ocarina-rim" d="M 337 26 L 386 59 M 331 35 L 379 69" />
-          <path className="ocarina-highlight" d="M 49 121 C 95 88 158 86 206 98 M 280 99 L 338 39" />
-          <g className="ocarina-triforce" transform="translate(263 112) rotate(34)">
+          <path className="ocarina-body" d="M 24 183 C 51 170 73 143 110 122 C 156 96 216 88 262 105 C 272 108 278 106 282 96 L 304 39 Q 307 29 316 31 L 345 42 Q 354 45 350 56 L 332 117 C 330 125 335 130 345 136 C 382 157 397 192 382 223 C 365 261 308 279 250 276 C 171 273 114 248 67 218 C 49 207 32 200 24 194 Q 16 189 24 183 Z" />
+          <path className="ocarina-rim" d="M 305 39 L 349 55 M 302 48 L 346 64" />
+          <path className="ocarina-highlight" d="M 64 173 C 107 130 172 104 228 115 M 291 98 L 313 47" />
+          <path className="ocarina-contour" d="M 85 223 C 169 268 282 288 351 245" />
+          <g className="ocarina-triforce" transform="translate(307 134) rotate(18)">
             <path d="M 0 -23 L -12 -2 L 12 -2 Z M -12 -2 L -24 19 L 0 19 Z M 12 -2 L 0 19 L 24 19 Z" />
           </g>
-          <ellipse className="ocarina-hole" cx="72" cy="115" rx="9" ry="6" transform="rotate(-18 72 115)" />
-          <ellipse className="ocarina-hole" cx="117" cy="104" rx="9" ry="6" transform="rotate(-8 117 104)" />
-          <ellipse className="ocarina-hole" cx="163" cy="106" rx="9" ry="6" transform="rotate(8 163 106)" />
+          <ellipse className="ocarina-hole" cx="124" cy="141" rx="10" ry="7" transform="rotate(-24 124 141)" />
+          <ellipse className="ocarina-hole" cx="164" cy="126" rx="10" ry="7" transform="rotate(-12 164 126)" />
+          <ellipse className="ocarina-hole" cx="207" cy="126" rx="10" ry="7" />
+          <ellipse className="ocarina-hole" cx="248" cy="140" rx="10" ry="7" transform="rotate(18 248 140)" />
         </svg>
         <div className="ocarina-sequence">
           {(song.notes.split("") as Note[]).map((n, i) => (
