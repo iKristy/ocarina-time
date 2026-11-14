@@ -155,8 +155,7 @@
 main > *:not(.triforce-bg) { position: relative; z-index: 1; }
 .song-selected {
   border-color: var(--gold) !important;
-  background: var(--gold) !important;
-  color: var(--background) !important;
+  background: linear-gradient(0deg, oklch(0.26 0.06 95 / 0.35), oklch(0.2 0.05 95 / 0.25)) !important;
   box-shadow: 0 0 14px oklch(0.78 0.15 90 / 0.35), inset 0 0 8px oklch(0.78 0.15 90 / 0.15);
   transform: scale(1.02);
 }
