@@ -1,16 +1,19 @@
 import { createElement, type ComponentType } from "react";
 import { fireEvent, render, screen, cleanup } from "@testing-library/react";
-import { afterEach, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { Route } from "@/routes/index";
 
 afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
+  vi.useRealTimers();
 });
 
-it("plays the selected sequence note when tapped", () => {
-  const start = vi.fn();
-  const pitches: number[] = [];
+const start = vi.fn();
+const pitches: number[] = [];
+beforeEach(() => {
+  start.mockClear();
+  pitches.length = 0;
   const node = () => ({ connect: vi.fn().mockReturnThis() });
   vi.stubGlobal("AudioContext", class {
     state = "running";
@@ -33,9 +36,23 @@ it("plays the selected sequence note when tapped", () => {
       };
     }
   });
+});
+
+it("plays the selected sequence note when tapped", () => {
   const Page = Route.options.component as ComponentType;
   render(createElement(Page));
   fireEvent.click(screen.getByRole("button", { name: "Play Y note 1" }));
   expect(start).toHaveBeenCalledTimes(4);
   expect(pitches[0]).toBe(493.88);
+});
+
+it("spaces song notes 600 milliseconds apart for a slightly slower pace", async () => {
+  vi.useFakeTimers();
+  const Page = Route.options.component as ComponentType;
+  render(createElement(Page));
+  const timeout = vi.spyOn(globalThis, "setTimeout");
+  fireEvent.click(screen.getByRole("button", { name: /Saria's Song/ }));
+  expect(timeout).toHaveBeenCalledWith(expect.any(Function), 600);
+  await vi.runAllTimersAsync();
+  timeout.mockRestore();
 });
