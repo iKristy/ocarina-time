@@ -222,6 +222,8 @@ main > *:not(.triforce-bg) { position: relative; z-index: 1; }
   50% { --song-border-color: var(--crest-gold-light); }
 }
 .song-scroll {
+  margin-inline: -1rem;
+  margin-top: -1rem;
   scrollbar-width: none;
   -webkit-mask-image: linear-gradient(to bottom, black 88%, transparent 98%);
   mask-image: linear-gradient(to bottom, black 88%, transparent 98%);
@@ -256,7 +258,7 @@ main > *:not(.triforce-bg) { position: relative; z-index: 1; }
   .song-selected[data-playing="true"] { animation: none; --song-border-color: var(--crest-gold-light); }
   .song-note-icon[data-playing="true"] { animation: none; }
 }
-.song-scroll > ul { padding-inline: 1rem; padding-top: .5rem; }
+.song-scroll > ul { padding-inline: 2rem; padding-top: 1.5rem; }
 @media (max-width: 380px) {
   .ocarina-sequence { gap: 5px; }
   .ocarina-sequence .seq-btn { font-size: 0.875rem; }
