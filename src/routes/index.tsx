@@ -218,7 +218,7 @@ function Index() {
           <g transform="translate(-45 0)">
           <path className="ocarina-collar" d="M 154 100 Q 180 104 206 100 C 209 113 212 122 222 128 Q 181 143 140 128 C 148 121 151 113 154 100 Z" />
           <path className="ocarina-metal-detail" d="M 154 104 Q 180 109 207 104 M 147 127 Q 181 139 214 127" />
-          <svg className="ocarina-triforce" x="166.6" y="106.2" width="28.8" height="25.2" viewBox="0 0 22 19" aria-hidden="true">
+          <svg className="ocarina-triforce" x="166.6" y="106.2" width="28.8" height="20.2" viewBox="0 0 22 19" aria-hidden="true">
             <path d="M11 0 16.5 9.5H5.5Z M5.5 9.5 11 19H0Z M16.5 9.5 22 19H11Z" />
           </svg>
           </g>
