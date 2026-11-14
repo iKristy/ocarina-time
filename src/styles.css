@@ -37,7 +37,6 @@
   --ocarina-blue: oklch(0.5 0.17 255);
   --ocarina-dark: oklch(0.29 0.12 260);
   --ocarina-edge: oklch(0.68 0.12 240);
-  --ocarina-hole: oklch(0.18 0.06 255);
   --ocarina-shine: oklch(0.88 0.07 230 / 55%);
   --ocarina-shadow: oklch(0.08 0.04 250 / 55%);
   --ocarina-silver: oklch(0.91 0.01 250);
@@ -104,11 +103,10 @@
 .ocarina-highlight { fill: none; stroke: var(--ocarina-shine); stroke-width: 4; stroke-linecap: round; }
 .ocarina-contour { fill: none; stroke: var(--ocarina-dark); stroke-width: 6; stroke-linecap: round; opacity: 0.45; }
 .ocarina-triforce { fill: var(--gold); }
-.ocarina-hole { fill: var(--ocarina-hole); stroke: var(--ocarina-edge); stroke-width: 2; }
 .ocarina-sequence {
   position: absolute;
   left: 12%;
-  top: 63%;
+  top: 58%;
   width: 76%;
   height: 14%;
   display: grid;
@@ -116,12 +114,12 @@
   grid-auto-columns: minmax(0, 36px);
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 7px;
 }
 .ocarina-sequence .seq-btn { width: 100%; height: auto; aspect-ratio: 1; min-width: 0; font-size: 1rem; }
 .ocarina-sequence .seq-btn-r { border-radius: 6px; }
 @media (max-width: 380px) {
-  .ocarina-sequence { gap: 3px; }
+  .ocarina-sequence { gap: 5px; }
   .ocarina-sequence .seq-btn { font-size: 0.875rem; }
 }
 @media (prefers-reduced-motion: reduce) {
