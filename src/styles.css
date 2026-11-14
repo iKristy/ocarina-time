@@ -127,6 +127,12 @@
 }
 .scarecrow-row { position: relative; }
 .scarecrow-saved { padding-right: 3.5rem; }
+.scarecrow-status { display: flex; align-items: center; gap: 6px; height: 18px; margin-top: 3px; font-family: var(--font-controls); font-size: 11px; line-height: 18px; color: var(--muted-foreground); }
+.scarecrow-status[data-state="recording"] { color: var(--ocarina-recording-glow); }
+.scarecrow-status[data-state="saved"] { color: var(--crest-gold-light); }
+.scarecrow-status svg { width: 13px; height: 13px; flex-shrink: 0; }
+.scarecrow-recording-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+.scarecrow-count { margin-left: auto; font-variant-numeric: tabular-nums; }
 .scarecrow-reset { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--gold); }
 .scarecrow-reset:focus-visible { outline: 2px solid var(--song-focus-border); outline-offset: 2px; }
 .scarecrow-progress { position: absolute; left: 11%; top: 75%; width: 70%; display: flex; justify-content: center; gap: 7px; }
