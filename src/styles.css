@@ -207,6 +207,21 @@ main > *:not(.triforce-bg) { position: relative; z-index: 1; }
   mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 88%, transparent 98%);
 }
 .song-scroll::-webkit-scrollbar { display: none; }
+.songbook-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--gold);
+}
+.songbook-heading::before, .songbook-heading::after {
+  content: "";
+  width: 34px;
+  height: 1px;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+.songbook-heading::after { transform: scaleX(-1); }
 .song-note-icon { transition: color .2s, text-shadow .2s; }
 .song-note-icon[data-playing="true"] {
   color: var(--crest-gold-light);
