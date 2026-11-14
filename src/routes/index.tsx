@@ -123,8 +123,8 @@ function Index() {
 
   return (
     <main className="relative mx-auto flex h-dvh max-w-md flex-col items-center gap-5 overflow-hidden px-4 pb-4 pt-6">
-      <svg aria-hidden="true" viewBox="0 0 120 104" className="triforce-bg">
-        <path d="M60 17.36 L40 52 L80 52 Z M40 52 L20 86.64 L60 86.64 Z M80 52 L60 86.64 L100 86.64 Z" fill="currentColor" />
+      <svg aria-hidden="true" viewBox="0 0 22 19" className="triforce-bg">
+        <path d="M11 0 16.5 9.5H5.5Z M5.5 9.5 11 19H0Z M16.5 9.5 22 19H11Z" fill="currentColor" />
       </svg>
       <header className="text-center">
         <p className="font-serif text-xs tracking-[0.4em] text-muted-foreground">THE LEGEND OF ZELDA</p>
