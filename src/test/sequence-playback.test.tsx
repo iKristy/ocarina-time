@@ -3,6 +3,7 @@ import { fireEvent, render, screen, cleanup } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { Route } from "@/routes/index";
 import { SONGS, songTiming } from "@/lib/ocarina-playback";
+import { readScarecrow, resetScarecrow } from "@/lib/scarecrow-song";
 
 afterEach(() => {
   cleanup();
@@ -13,6 +14,7 @@ afterEach(() => {
 const start = vi.fn();
 const pitches: number[] = [];
 beforeEach(() => {
+  resetScarecrow();
   start.mockClear();
   pitches.length = 0;
   const node = () => ({ connect: vi.fn().mockReturnThis() });
@@ -50,6 +52,19 @@ it("plays the selected sequence note when tapped", () => {
   fireEvent.click(screen.getByRole("button", { name: "Play Y note 1" }));
   expect(start).toHaveBeenCalledTimes(6);
   expect(pitches[0]).toBeCloseTo(987.77 * 0.982);
+});
+
+it("discards recorded notes on reset and saves only the new eight-note sequence", () => {
+  const Page = Route.options.component as ComponentType;
+  render(createElement(Page));
+  fireEvent.click(screen.getByRole("button", { name: /Scarecrow’s Song/ }));
+  for (let i = 0; i < 3; i++) fireEvent.click(screen.getByRole("button", { name: "Play L note 1" }));
+  fireEvent.click(screen.getByRole("button", { name: "Reset Scarecrow’s Song" }));
+  for (let i = 0; i < 7; i++) fireEvent.click(screen.getByRole("button", { name: "Play X note 5" }));
+  expect(readScarecrow()).toBeNull();
+  fireEvent.click(screen.getByRole("button", { name: "Play X note 5" }));
+  expect(readScarecrow()).toEqual(["U", "U", "U", "U", "U", "U", "U", "U"]);
+  resetScarecrow();
 });
 
 it("schedules Zelda's Lullaby using the attached beat lengths", async () => {
