@@ -30,3 +30,4 @@ use the editor.
 <!-- LOVABLE:END -->
 
 - Render the ocarina as an inline SVG with its sequence positioned in the same aspect-ratio container, so the instrument and notes stay aligned across screen sizes.
+- Keep song beat data and lazy browser audio synthesis in a shared playback module; schedule voices on the audio clock so per-song rhythms remain accurate and playback can be interrupted.

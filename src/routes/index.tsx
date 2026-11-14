@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { createOcarinaPlayer, SONGS, songTiming, type Note } from "@/lib/ocarina-playback";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -16,139 +17,65 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Note = "A" | "D" | "R" | "L" | "U";
-const FREQ: Record<Note, number> = { A: 587.33, D: 698.46, R: 880, L: 987.77, U: 1174.66 };
-// Nintendo Switch mapping: X = C-up, Y = C-left, B = C-down, A = C-right, R = A button
+// Nintendo Switch button labels for the original five ocarina notes.
 const SYMBOL: Record<Note, string> = { A: "L", D: "R", R: "A", L: "Y", U: "X" };
 const BTN_CLS: Record<Note, string> = { A: "seq-btn-r", D: "", R: "", L: "", U: "" };
-
-const SONGS: { name: string; notes: string; tone: string }[] = [
-  { name: "Zelda's Lullaby", notes: "LURLUR", tone: "royal" },
-  { name: "Epona's Song", notes: "ULRULR", tone: "royal" },
-  { name: "Saria's Song", notes: "DRLDRL", tone: "forest" },
-  { name: "Sun's Song", notes: "RDURDU", tone: "royal" },
-  { name: "Song of Time", notes: "RADRAD", tone: "royal" },
-  { name: "Song of Storms", notes: "ADUADU", tone: "royal" },
-  { name: "Minuet of Forest", notes: "AULRLR", tone: "forest" },
-  { name: "Bolero of Fire", notes: "DADARDRD", tone: "fire" },
-  { name: "Serenade of Water", notes: "ADRRL", tone: "water" },
-  { name: "Requiem of Spirit", notes: "ADARDA", tone: "spirit" },
-  { name: "Nocturne of Shadow", notes: "LRRALRD", tone: "shadow" },
-  { name: "Prelude of Light", notes: "URURLU", tone: "light" },
-];
-
-// Each tone gives a song its own pace and echo: forest/fire are brisk and dry,
-// water/spirit/shadow linger with a deeper temple reverb.
-const TONE_STYLE: Record<string, { dur: number; gap: number; wet: number }> = {
-  royal: { dur: 0.5, gap: 520, wet: 0.22 },
-  forest: { dur: 0.42, gap: 450, wet: 0.16 },
-  fire: { dur: 0.4, gap: 430, wet: 0.14 },
-  water: { dur: 0.6, gap: 640, wet: 0.3 },
-  spirit: { dur: 0.62, gap: 660, wet: 0.34 },
-  shadow: { dur: 0.58, gap: 620, wet: 0.3 },
-  light: { dur: 0.52, gap: 540, wet: 0.26 },
-};
-
-let ctx: AudioContext | null = null;
-let breathBuffer: AudioBuffer | null = null;
-let reverbIn: GainNode | null = null;
-// A soft "stone temple" echo: shared convolver fed by every note.
-function reverbSend(c: AudioContext) {
-  if (reverbIn) return reverbIn;
-  const seconds = 1.4;
-  const impulse = c.createBuffer(2, c.sampleRate * seconds, c.sampleRate);
-  for (let ch = 0; ch < 2; ch++) {
-    const samples = impulse.getChannelData(ch);
-    for (let i = 0; i < samples.length; i++) {
-      samples[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / samples.length, 2.6);
-    }
-  }
-  const convolver = c.createConvolver(); convolver.buffer = impulse;
-  const wet = c.createGain(); wet.gain.value = 0.22;
-  reverbIn = c.createGain();
-  reverbIn.connect(convolver).connect(wet).connect(c.destination);
-  return reverbIn;
-}
-function play(n: Note, dur = 0.45, wet = 0.22) {
-  ctx ??= new AudioContext();
-  if (ctx.state === "suspended") void ctx.resume();
-  const t = ctx.currentTime;
-  const g = ctx.createGain();
-  const f = ctx.createBiquadFilter();
-  f.type = "lowpass"; f.frequency.value = FREQ[n] * 3.5; f.Q.value = 0.5;
-  const o = ctx.createOscillator(); o.type = "sine"; o.frequency.value = FREQ[n];
-  const o2 = ctx.createOscillator(); o2.type = "sine"; o2.frequency.value = FREQ[n] * 2;
-  const g2 = ctx.createGain(); g2.gain.value = 0.035;
-  // Air pressure settles into pitch; gentle vibrato arrives after the attack.
-  for (const oscillator of [o, o2]) {
-    oscillator.detune.setValueAtTime(-9, t);
-    oscillator.detune.linearRampToValueAtTime(0, t + 0.065);
-  }
-  const lfo = ctx.createOscillator(); lfo.frequency.value = 4.8;
-  const lg = ctx.createGain();
-  lg.gain.setValueAtTime(0, t);
-  lg.gain.linearRampToValueAtTime(0, t + 0.1);
-  lg.gain.linearRampToValueAtTime(5, t + dur * 0.65);
-  lfo.connect(lg);
-  lg.connect(o.detune); lg.connect(o2.detune);
-
-  // A quiet filtered air layer adds the breath missing from a pure sine tone.
-  if (!breathBuffer) {
-    breathBuffer = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
-    const samples = breathBuffer.getChannelData(0);
-    for (let i = 0; i < samples.length; i++) samples[i] = Math.random() * 2 - 1;
-  }
-  const breath = ctx.createBufferSource(); breath.buffer = breathBuffer; breath.loop = true;
-  const airFilter = ctx.createBiquadFilter();
-  airFilter.type = "bandpass"; airFilter.frequency.value = 1700; airFilter.Q.value = 0.8;
-  const airGain = ctx.createGain();
-  airGain.gain.setValueAtTime(0, t);
-  airGain.gain.linearRampToValueAtTime(0.026, t + 0.025);
-  airGain.gain.linearRampToValueAtTime(0.009, t + 0.1);
-  breath.connect(airFilter).connect(airGain).connect(g);
-  o.connect(g); o2.connect(g2).connect(g); g.connect(f).connect(ctx.destination);
-  const send = ctx.createGain(); send.gain.value = wet;
-  g.connect(send).connect(reverbSend(ctx));
-  g.gain.setValueAtTime(0, t);
-  g.gain.linearRampToValueAtTime(0.32, t + 0.055);
-  g.gain.linearRampToValueAtTime(0.29, t + 0.13);
-  g.gain.linearRampToValueAtTime(0.27, t + dur - 0.09);
-  g.gain.linearRampToValueAtTime(0, t + dur);
-  [o, o2, lfo, breath].forEach((x) => { x.start(t); x.stop(t + dur + 0.05); });
-}
 
 function Index() {
   const [selected, setSelected] = useState(0);
   const [playingNote, setPlayingNote] = useState<number | null>(null);
   const [tappedNote, setTappedNote] = useState<number | null>(null);
   const tapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const busy = useRef(false);
+  const player = useRef<ReturnType<typeof createOcarinaPlayer> | null>(null);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const voices = useRef<{ stop(): void }[]>([]);
+  const getPlayer = () => {
+    player.current ??= createOcarinaPlayer();
+    return player.current;
+  };
+  const stopPlayback = () => {
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
+    voices.current.forEach(voice => voice.stop());
+    voices.current = [];
+    setPlayingNote(null);
+  };
 
   useEffect(() => () => {
     if (tapTimer.current) clearTimeout(tapTimer.current);
+    timers.current.forEach(clearTimeout);
+    voices.current.forEach(voice => voice.stop());
+    player.current?.close();
   }, []);
 
   const playNote = (note: Note, index: number) => {
-    play(note);
+    stopPlayback();
+    getPlayer().play(note);
     setTappedNote(index);
     if (tapTimer.current) clearTimeout(tapTimer.current);
     tapTimer.current = setTimeout(() => setTappedNote(null), 450);
   };
 
-  const playSong = async (i: number) => {
+  const playSong = (i: number) => {
     const nextSong = SONGS[i];
-    if (busy.current || !nextSong) return;
-    busy.current = true; setSelected(i);
-    const style = TONE_STYLE[nextSong.tone] ?? TONE_STYLE["royal"]!;
-    const notes = nextSong.notes.split("") as Note[];
-    for (let j = 0; j < notes.length; j++) {
-      const note = notes[j];
-      if (!note) continue;
-      play(note, style.dur, style.wet); setPlayingNote(j);
-      await new Promise((r) => setTimeout(r, style.gap));
-    }
-    setPlayingNote(null);
-    busy.current = false;
+    if (!nextSong) return;
+    stopPlayback();
+    if (tapTimer.current) clearTimeout(tapTimer.current);
+    setTappedNote(null);
+    setSelected(i);
+    const audio = getPlayer();
+    const start = audio.now();
+    const timing = songTiming(nextSong);
+    timing.forEach(({ note, offset, duration }, index) => {
+      voices.current.push(audio.play(note, duration, start + offset));
+      timers.current.push(setTimeout(() => setPlayingNote(index), offset * 1000));
+      timers.current.push(setTimeout(() => setPlayingNote(null), (offset + duration) * 1000));
+    });
+    const last = timing.at(-1);
+    if (last) timers.current.push(setTimeout(() => {
+      setPlayingNote(null);
+      voices.current = [];
+    }, (last.offset + last.beat) * 1000 + 120));
   };
 
   const song = SONGS[selected];
