@@ -73,5 +73,10 @@
 @utility seq-btn-r {
   width: 2.9rem; border-radius: 0.7rem;
 }
+@utility seq-x { background: linear-gradient(180deg, oklch(0.62 0.14 240), oklch(0.48 0.13 250)); }
+@utility seq-y { background: linear-gradient(180deg, oklch(0.68 0.15 145), oklch(0.52 0.13 150)); }
+@utility seq-a { background: linear-gradient(180deg, oklch(0.6 0.19 28), oklch(0.46 0.17 28)); }
+@utility seq-b { background: linear-gradient(180deg, oklch(0.82 0.15 95), oklch(0.66 0.14 85)); color: oklch(0.3 0.05 80); text-shadow: none; }
+@utility seq-r { background: linear-gradient(180deg, oklch(0.55 0.02 260), oklch(0.4 0.02 260)); }
 @keyframes floaty { 50% { transform: translateY(-8px) rotate(-2deg); } }
 @utility floaty { animation: floaty 4s ease-in-out infinite; }

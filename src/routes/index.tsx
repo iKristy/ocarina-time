@@ -20,6 +20,7 @@ type Note = "A" | "D" | "R" | "L" | "U";
 const FREQ: Record<Note, number> = { A: 293.66, D: 349.23, R: 440, L: 493.88, U: 587.33 };
 // Nintendo Switch mapping: X = C-up, Y = C-left, B = C-down, A = C-right, R = A button
 const SYMBOL: Record<Note, string> = { A: "R", D: "B", R: "A", L: "Y", U: "X" };
+const BTN_CLS: Record<Note, string> = { A: "seq-r seq-btn-r", D: "seq-b", R: "seq-a", L: "seq-y", U: "seq-x" };
 
 const SONGS: { name: string; notes: string; tone: string }[] = [
   { name: "Zelda's Lullaby", notes: "LURLUR", tone: "royal" },
