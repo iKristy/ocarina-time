@@ -189,7 +189,10 @@ main > *:not(.triforce-bg) { position: relative; z-index: 1; }
   transform: scale(1.02);
   transition: border-color .2s, box-shadow .2s, background .2s, transform .2s;
 }
-.song-selected[data-playing="true"] { animation: song-border-color 1.2s ease-in-out infinite; }
+.song-selected[data-playing="true"] {
+  color: var(--crest-gold-light);
+  animation: song-border-color 1.2s ease-in-out infinite;
+}
 @keyframes song-border-color {
   0%, 100% { --song-border-color: var(--gold); }
   50% { --song-border-color: var(--crest-gold-light); }
