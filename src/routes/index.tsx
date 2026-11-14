@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
-import ocarina from "@/assets/ocarina.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -64,18 +63,22 @@ function Index() {
   const busy = useRef(false);
 
   const playSong = async (i: number) => {
-    if (busy.current) return;
+    const nextSong = SONGS[i];
+    if (busy.current || !nextSong) return;
     busy.current = true; setSelected(i);
-    const notes = SONGS[i]!.notes.split("") as Note[];
+    const notes = nextSong.notes.split("") as Note[];
     for (let j = 0; j < notes.length; j++) {
-      play(notes[j]!, 0.5); setPlayingNote(j);
+      const note = notes[j];
+      if (!note) continue;
+      play(note, 0.5); setPlayingNote(j);
       await new Promise((r) => setTimeout(r, 520));
     }
     setPlayingNote(null);
     busy.current = false;
   };
 
-  const song = SONGS[selected]!;
+  const song = SONGS[selected];
+  if (!song) return null;
 
   return (
     <main className="mx-auto flex max-w-md flex-col items-center gap-5 px-4 pb-10 pt-6">
@@ -84,18 +87,32 @@ function Index() {
         <h1 className="gold-text font-display text-4xl font-bold leading-tight">Ocarina of Time</h1>
       </header>
 
-      <img src={ocarina} alt="The blue Ocarina of Time" width={1024} height={768} className="floaty w-60 drop-shadow-2xl" />
-
-      <section className="panel w-full rounded-lg p-4 text-center">
-        <div className="font-serif text-sm text-gold">{song.name}</div>
-        <div className="mt-2 flex min-h-10 flex-wrap items-center justify-center gap-2">
+      <section className="ocarina-display" aria-label="Ocarina button sequence">
+        <svg className="ocarina-shape" viewBox="0 0 420 280" role="img" aria-label="Blue Ocarina of Time">
+          <defs>
+            <linearGradient id="ocarina-body" x1="0" y1="0" x2="0.65" y2="1">
+              <stop offset="0" className="ocarina-stop-light" />
+              <stop offset="0.5" className="ocarina-stop-blue" />
+              <stop offset="1" className="ocarina-stop-dark" />
+            </linearGradient>
+          </defs>
+          <path className="ocarina-body" d="M 38 125 C 56 85 119 68 184 77 C 220 81 244 94 265 99 L 335 25 Q 344 16 355 23 L 387 45 Q 396 52 388 64 L 329 147 C 351 173 346 204 319 224 C 278 255 199 267 132 246 C 79 230 25 202 27 168 Q 26 145 38 125 Z" />
+          <path className="ocarina-rim" d="M 337 26 L 386 59 M 331 35 L 379 69" />
+          <path className="ocarina-highlight" d="M 49 121 C 95 88 158 86 206 98 M 280 99 L 338 39" />
+          <g className="ocarina-triforce" transform="translate(263 112) rotate(34)">
+            <path d="M 0 -23 L -12 -2 L 12 -2 Z M -12 -2 L -24 19 L 0 19 Z M 12 -2 L 0 19 L 24 19 Z" />
+          </g>
+          <ellipse className="ocarina-hole" cx="72" cy="115" rx="9" ry="6" transform="rotate(-18 72 115)" />
+          <ellipse className="ocarina-hole" cx="117" cy="104" rx="9" ry="6" transform="rotate(-8 117 104)" />
+          <ellipse className="ocarina-hole" cx="163" cy="106" rx="9" ry="6" transform="rotate(8 163 106)" />
+        </svg>
+        <div className="ocarina-sequence">
           {(song.notes.split("") as Note[]).map((n, i) => (
             <span key={i} data-on={playingNote === i} className={`seq-btn ${BTN_CLS[n]}`}>
               {SYMBOL[n]}
             </span>
           ))}
         </div>
-        <div className="mt-1 text-sm text-muted-foreground">Pick a song below to hear it</div>
       </section>
 
       <section className="w-full">

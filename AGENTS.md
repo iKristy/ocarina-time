@@ -28,3 +28,5 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Render the ocarina as an inline SVG with its sequence positioned in the same aspect-ratio container, so the instrument and notes stay aligned across screen sizes.
