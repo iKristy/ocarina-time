@@ -151,6 +151,11 @@ function Index() {
       <section className="ocarina-display" aria-label="Ocarina button sequence">
         <svg className="ocarina-shape" viewBox="0 0 420 300" role="img" aria-label="Blue Ocarina of Time">
           <defs>
+            <linearGradient id="crest-gold" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" className="crest-stop-light" />
+              <stop offset=".5" className="crest-stop-mid" />
+              <stop offset="1" className="crest-stop-dark" />
+            </linearGradient>
             <radialGradient id="ocarina-body" cx="36%" cy="28%" r="78%" gradientTransform="translate(0 .03) scale(1 .94)">
               <stop offset="0" className="ocarina-stop-light" />
               <stop offset="0.35" className="ocarina-stop-blue" />
@@ -185,9 +190,9 @@ function Index() {
           <g transform="translate(-25 0)">
           <path className="ocarina-collar" d="M 154 100 Q 180 104 206 100 C 208 113 210 122 219 128 Q 181 143 142 128 C 150 121 152 113 154 100 Z" />
           <path className="ocarina-metal-detail" d="M 154 104 Q 180 109 207 104 M 147 127 Q 181 139 214 127 M 160 113 l -5 6 9 5 -2 -8 8 8 M 199 111 l 7 7 -9 7 2 -9 -8 8" />
-          <g className="ocarina-triforce" transform="translate(181 117) scale(0.6)">
-            <path d="M 0 -23 L -12 -2 L 12 -2 Z M -12 -2 L -24 19 L 0 19 Z M 12 -2 L 0 19 L 24 19 Z" />
-          </g>
+          <svg className="ocarina-triforce" x="166.6" y="103.2" width="28.8" height="25.2" viewBox="0 0 22 19" aria-hidden="true">
+            <path d="M11 0 16.5 9.5H5.5Z M5.5 9.5 11 19H0Z M16.5 9.5 22 19H11Z" />
+          </svg>
           </g>
         </svg>
         <div className="ocarina-sequence">
