@@ -15,16 +15,20 @@ it("plays the selected sequence note when tapped", () => {
   vi.stubGlobal("AudioContext", class {
     state = "running";
     currentTime = 0;
+    sampleRate = 44100;
     destination = {};
+    createBuffer() { return { getChannelData: () => new Float32Array(44100) }; }
+    createBufferSource() { return { ...node(), buffer: null, loop: false, start, stop: vi.fn() }; }
     createGain() {
       return { ...node(), gain: { value: 0, setValueAtTime: vi.fn(), linearRampToValueAtTime: vi.fn() } };
     }
     createBiquadFilter() {
-      return { ...node(), type: "", frequency: { value: 0 } };
+      return { ...node(), type: "", frequency: { value: 0 }, Q: { value: 0 } };
     }
     createOscillator() {
       return {
         ...node(), type: "", start, stop: vi.fn(),
+        detune: { setValueAtTime: vi.fn(), linearRampToValueAtTime: vi.fn() },
         frequency: { set value(value: number) { pitches.push(value); } },
       };
     }
@@ -32,6 +36,6 @@ it("plays the selected sequence note when tapped", () => {
   const Page = Route.options.component as ComponentType;
   render(createElement(Page));
   fireEvent.click(screen.getByRole("button", { name: "Play Y note 1" }));
-  expect(start).toHaveBeenCalledTimes(3);
+  expect(start).toHaveBeenCalledTimes(4);
   expect(pitches[0]).toBe(493.88);
 });
