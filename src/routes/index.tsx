@@ -20,6 +20,7 @@ type Note = "A" | "D" | "R" | "L" | "U";
 const FREQ: Record<Note, number> = { A: 293.66, D: 349.23, R: 440, L: 493.88, U: 587.33 };
 // Nintendo Switch mapping: X = C-up, Y = C-left, B = C-down, A = C-right, R = A button
 const SYMBOL: Record<Note, string> = { A: "R", D: "B", R: "A", L: "Y", U: "X" };
+const BTN_CLS: Record<Note, string> = { A: "seq-r seq-btn-r", D: "seq-b", R: "seq-a", L: "seq-y", U: "seq-x" };
 
 const SONGS: { name: string; notes: string; tone: string }[] = [
   { name: "Zelda's Lullaby", notes: "LURLUR", tone: "royal" },
@@ -87,10 +88,9 @@ function Index() {
 
       <section className="panel w-full rounded-lg p-4 text-center">
         <div className="font-serif text-sm text-gold">{song.name}</div>
-        <div className="mt-2 flex min-h-10 justify-center gap-2 text-2xl">
+        <div className="mt-2 flex min-h-10 flex-wrap items-center justify-center gap-2">
           {(song.notes.split("") as Note[]).map((n, i) => (
-            <span key={i} data-on={playingNote === i}
-              className={`rounded px-1 transition-colors ${n === "A" ? "font-serif font-bold text-abtn" : "text-cbtn"} ${playingNote === i ? "bg-gold/20" : ""}`}>
+            <span key={i} data-on={playingNote === i} className={`seq-btn ${BTN_CLS[n]}`}>
               {SYMBOL[n]}
             </span>
           ))}
