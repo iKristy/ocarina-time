@@ -139,7 +139,7 @@ function Index() {
           {SONGS.map((s, i) => (
             <li key={s.name}>
               <button onClick={() => playSong(i)}
-                className={`panel w-full rounded-lg px-4 py-3.5 text-left font-serif text-base transition-all ${i === selected ? "song-selected text-gold" : "text-foreground"}`}>
+                className={`panel w-full rounded-lg px-4 py-3.5 text-left font-body text-lg transition-all ${i === selected ? "song-selected text-gold" : "text-foreground"}`}>
                 ♪ {s.name}
               </button>
             </li>
