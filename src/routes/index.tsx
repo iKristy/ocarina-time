@@ -142,6 +142,7 @@ function Index() {
             </li>
           ))}
         </ul>
+        </div>
       </section>
 
       <section className="ocarina-display" aria-label="Ocarina button sequence">
