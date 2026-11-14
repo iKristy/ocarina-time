@@ -144,14 +144,14 @@ function Index() {
           <li className="scarecrow-row">
             <Button variant="ghost" onClick={() => scarecrow ? playSong(SONGS.length) : beginRecording()}
               data-playing={selected === SONGS.length && isPlaying}
-              className={`panel song-item flex h-auto w-full items-center justify-start gap-3 whitespace-normal rounded-lg px-4 py-3.5 text-left font-body text-lg font-normal ${selected === SONGS.length ? "song-selected text-gold" : "text-foreground"} ${scarecrow ? "scarecrow-saved" : ""}`}>
+              className={`panel song-item flex h-auto w-full items-center justify-start gap-3 whitespace-normal rounded-lg px-4 py-3.5 text-left font-body text-lg font-normal ${selected === SONGS.length ? "song-selected text-gold" : "text-foreground"} ${scarecrow || recording ? "scarecrow-saved" : ""}`}>
               <span aria-hidden="true" className="song-selected-frame" />
               <span aria-hidden="true" className="song-sheen-layer" />
               <span aria-hidden="true" data-playing={selected === SONGS.length && isPlaying} className="song-note-icon inline-flex w-5 shrink-0 justify-center text-2xl leading-none">♪</span>
               <span className="scarecrow-title">Scarecrow’s Song{recording && <span className="scarecrow-recording-dot" role="status" aria-label="Recording notes" />}</span>
               {!scarecrow && <span className="ml-auto text-sm text-muted-foreground">{recording ? `${draft.length}/8` : "Empty"}</span>}
             </Button>
-            {scarecrow && <Button variant="ghost" size="icon" className="scarecrow-reset" title="Reset Scarecrow’s Song" aria-label="Reset Scarecrow’s Song"
+            {(scarecrow || recording) && <Button variant="ghost" size="icon" className="scarecrow-reset" title="Reset Scarecrow’s Song" aria-label="Reset Scarecrow’s Song"
               onClick={() => { resetScarecrow(); setScarecrow(null); beginRecording(); }}><RotateCcw /></Button>}
           </li>
         </ul>
