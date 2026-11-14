@@ -126,10 +126,10 @@
   position: fixed;
   inset: 0;
   margin: auto;
-  width: min(150vw, 1000px);
+  width: min(230vw, 1600px);
   height: auto;
   color: var(--gold);
-  opacity: 0.09;
+  opacity: 0.05;
   pointer-events: none;
   z-index: 0;
 }
