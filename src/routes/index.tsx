@@ -128,6 +128,20 @@ function Index() {
         <h1 className="gold-text font-display text-4xl font-bold leading-tight">Ocarina of Time</h1>
       </header>
 
+      <section className="w-full">
+        <h2 className="gold-text mb-2 text-center font-serif text-lg font-bold tracking-widest">SONGS</h2>
+        <ul className="grid grid-cols-2 gap-2">
+          {SONGS.map((s, i) => (
+            <li key={s.name}>
+              <button onClick={() => playSong(i)}
+                className={`panel w-full rounded-lg px-3 py-2 text-left font-serif text-sm transition-colors ${i === selected ? "text-gold" : "text-foreground"}`}>
+                ♪ {s.name}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <section className="ocarina-display" aria-label="Ocarina button sequence">
         <svg className="ocarina-shape" viewBox="0 0 420 300" role="img" aria-label="Blue Ocarina of Time">
           <defs>
@@ -161,20 +175,6 @@ function Index() {
             </Button>
           ))}
         </div>
-      </section>
-
-      <section className="w-full">
-        <h2 className="gold-text mb-2 text-center font-serif text-lg font-bold tracking-widest">SONGS</h2>
-        <ul className="grid grid-cols-2 gap-2">
-          {SONGS.map((s, i) => (
-            <li key={s.name}>
-              <button onClick={() => playSong(i)}
-                className={`panel w-full rounded-lg px-3 py-2 text-left font-serif text-sm transition-colors ${i === selected ? "text-gold" : "text-foreground"}`}>
-                ♪ {s.name}
-              </button>
-            </li>
-          ))}
-        </ul>
       </section>
     </main>
   );
