@@ -127,9 +127,9 @@
 .ocarina-triforce { fill: var(--gold); }
 .ocarina-sequence {
   position: absolute;
-  left: 12%;
-  top: 58%;
-  width: 76%;
+  left: 9%;
+  top: 61%;
+  width: 70%;
   height: 14%;
   display: grid;
   grid-auto-flow: column;
