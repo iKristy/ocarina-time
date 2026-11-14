@@ -187,6 +187,14 @@ function Index() {
               <stop offset="1" className="ocarina-stop-clear" />
             </radialGradient>
             <filter id="ocarina-soften"><feGaussianBlur stdDeviation="3" /></filter>
+            <filter id="ceramic-mottle" x="0" y="0" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.014 0.022" numOctaves="4" seed="7" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0.55  0 0 0 0 0.7  0 0 0 0 0.98  0 0 0 0.45 -0.08" />
+            </filter>
+            <filter id="ceramic-speckle" x="0" y="0" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" seed="3" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0.85  0 0 0 0 0.92  0 0 0 0 1  1.6 1.6 1.6 -2.95 0" />
+            </filter>
             <clipPath id="ocarina-surface"><use href="#ocarina-outline" /></clipPath>
             <linearGradient id="ocarina-collar" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0" className="ocarina-stop-silver-dark" />
@@ -200,6 +208,8 @@ function Index() {
           <path id="ocarina-outline" className="ocarina-body" d="M 99 129 C 105 119 108 107 110 96 L 112 69 Q 112 61 120 58 L 137 54 Q 143 53 146 60 L 161 100 Q 166 117 175 126 C 248 126 332 145 385 171 C 413 184 414 197 394 209 C 345 238 255 260 166 268 C 103 273 53 259 31 234 C 7 207 26 170 62 149 C 76 140 87 133 99 129 Z" />
           <g clipPath="url(#ocarina-surface)">
             <use href="#ocarina-outline" className="ocarina-glaze" />
+            <rect className="ocarina-mottle" x="0" y="0" width="420" height="300" filter="url(#ceramic-mottle)" />
+            <rect className="ocarina-speckle" x="0" y="0" width="420" height="300" filter="url(#ceramic-speckle)" />
             <path className="ocarina-contour" d="M 30 228 C 72 283 225 283 393 208" />
             <path className="ocarina-reflection" d="M 46 241 C 108 279 253 248 369 222" />
             <path className="ocarina-highlight" d="M 44 174 C 61 155 77 148 93 144 M 121 67 Q 118 78 118 94" />
