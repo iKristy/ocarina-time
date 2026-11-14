@@ -87,10 +87,9 @@ function Index() {
 
       <section className="panel w-full rounded-lg p-4 text-center">
         <div className="font-serif text-sm text-gold">{song.name}</div>
-        <div className="mt-2 flex min-h-10 justify-center gap-2 text-2xl">
+        <div className="mt-2 flex min-h-10 flex-wrap items-center justify-center gap-2">
           {(song.notes.split("") as Note[]).map((n, i) => (
-            <span key={i} data-on={playingNote === i}
-              className={`rounded px-1 transition-colors ${n === "A" ? "font-serif font-bold text-abtn" : "text-cbtn"} ${playingNote === i ? "bg-gold/20" : ""}`}>
+            <span key={i} data-on={playingNote === i} className={`seq-btn ${BTN_CLS[n]}`}>
               {SYMBOL[n]}
             </span>
           ))}
