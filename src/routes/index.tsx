@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -39,6 +40,7 @@ const SONGS: { name: string; notes: string; tone: string }[] = [
 let ctx: AudioContext | null = null;
 function play(n: Note, dur = 0.45) {
   ctx ??= new AudioContext();
+  if (ctx.state === "suspended") void ctx.resume();
   const t = ctx.currentTime;
   const g = ctx.createGain();
   const f = ctx.createBiquadFilter();
@@ -60,7 +62,20 @@ function play(n: Note, dur = 0.45) {
 function Index() {
   const [selected, setSelected] = useState(0);
   const [playingNote, setPlayingNote] = useState<number | null>(null);
+  const [tappedNote, setTappedNote] = useState<number | null>(null);
+  const tapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const busy = useRef(false);
+
+  useEffect(() => () => {
+    if (tapTimer.current) clearTimeout(tapTimer.current);
+  }, []);
+
+  const playNote = (note: Note, index: number) => {
+    play(note);
+    setTappedNote(index);
+    if (tapTimer.current) clearTimeout(tapTimer.current);
+    tapTimer.current = setTimeout(() => setTappedNote(null), 450);
+  };
 
   const playSong = async (i: number) => {
     const nextSong = SONGS[i];
@@ -111,9 +126,13 @@ function Index() {
         </svg>
         <div className="ocarina-sequence">
           {(song.notes.split("") as Note[]).map((n, i) => (
-            <span key={i} data-on={playingNote === i} className={`seq-btn ${BTN_CLS[n]}`}>
+            <Button key={i} type="button" variant="ghost" size="icon"
+              aria-label={`Play ${SYMBOL[n]} note ${i + 1}`}
+              onClick={() => playNote(n, i)}
+              data-on={playingNote === i || tappedNote === i}
+              className={`seq-btn ${BTN_CLS[n]}`}>
               {SYMBOL[n]}
-            </span>
+            </Button>
           ))}
         </div>
       </section>
