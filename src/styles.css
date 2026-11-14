@@ -207,6 +207,7 @@ main > *:not(.triforce-bg) { position: relative; z-index: 1; }
   mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 88%, transparent 98%);
 }
 .song-scroll::-webkit-scrollbar { display: none; }
+.title-of { font-size: .52em; vertical-align: .2em; margin-inline: .04em; }
 .songbook-heading {
   display: flex;
   align-items: center;

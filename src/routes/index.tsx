@@ -92,7 +92,7 @@ function Index() {
       </svg>
       <header className="text-center">
         <p className="font-serif text-xs tracking-[0.4em] text-muted-foreground">THE LEGEND OF ZELDA</p>
-        <h1 className="gold-text font-display text-4xl font-bold leading-tight">Ocarina of Time</h1>
+        <h1 className="gold-text font-display text-4xl font-bold leading-tight">Ocarina <span className="title-of">of</span> Time</h1>
       </header>
 
       <section className="flex w-full min-h-0 flex-1 flex-col">
