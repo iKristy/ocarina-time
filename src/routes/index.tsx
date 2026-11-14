@@ -23,6 +23,7 @@ const BTN_CLS: Record<Note, string> = { A: "seq-btn-r", D: "", R: "", L: "", U: 
 
 function Index() {
   const [selected, setSelected] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [playingNote, setPlayingNote] = useState<number | null>(null);
   const [tappedNote, setTappedNote] = useState<number | null>(null);
   const tapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -39,6 +40,7 @@ function Index() {
     voices.current.forEach(voice => voice.stop());
     voices.current = [];
     setPlayingNote(null);
+    setIsPlaying(false);
   };
 
   useEffect(() => () => {
@@ -66,6 +68,7 @@ function Index() {
     const audio = getPlayer();
     const start = audio.now();
     const timing = songTiming(nextSong);
+    setIsPlaying(true);
     timing.forEach(({ note, offset, duration }, index) => {
       voices.current.push(audio.play(note, duration, start + offset));
       timers.current.push(setTimeout(() => setPlayingNote(index), offset * 1000));
@@ -74,6 +77,7 @@ function Index() {
     const last = timing.at(-1);
     if (last) timers.current.push(setTimeout(() => {
       setPlayingNote(null);
+      setIsPlaying(false);
       voices.current = [];
     }, (last.offset + last.beat) * 1000 + 120));
   };
@@ -100,7 +104,7 @@ function Index() {
             <li key={s.name}>
               <button onClick={() => playSong(i)}
                 className={`panel flex w-full items-center gap-3 rounded-lg px-4 py-3.5 text-left font-body text-lg transition-all ${i === selected ? "song-selected text-gold" : "text-foreground"}`}>
-                <span aria-hidden="true" className="inline-flex w-5 shrink-0 justify-center text-2xl leading-none">♪</span>
+                <span aria-hidden="true" data-playing={i === selected && isPlaying} className="song-note-icon inline-flex w-5 shrink-0 justify-center text-2xl leading-none">♪</span>
                 <span>{s.name}</span>
               </button>
             </li>

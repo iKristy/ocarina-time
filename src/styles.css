@@ -38,6 +38,7 @@
   --crest-metal-highlight: oklch(0.98 0.04 90 / 75%);
   --crest-metal-shadow: oklch(0.2 0.03 75 / 65%);
   --song-selection-glow: 0 0 18px 3px oklch(0.8 0.13 85 / 55%);
+  --song-note-glow: 0 0 5px oklch(0.95 0.1 95 / 80%), 0 0 10px oklch(0.8 0.13 85 / 55%);
   --cbtn: oklch(0.85 0.17 95);
   --abtn: oklch(0.6 0.17 250);
   --ocarina-light: oklch(0.75 0.11 230);
@@ -187,6 +188,19 @@ main > *:not(.triforce-bg) { position: relative; z-index: 1; }
   mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 88%, transparent 98%);
 }
 .song-scroll::-webkit-scrollbar { display: none; }
+.song-note-icon { transition: color .2s, text-shadow .2s; }
+.song-note-icon[data-playing="true"] {
+  color: var(--crest-gold-light);
+  text-shadow: var(--song-note-glow);
+  animation: song-note-sway 1.2s ease-in-out infinite;
+}
+@keyframes song-note-sway {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50% { transform: translateY(-2px) rotate(5deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .song-note-icon[data-playing="true"] { animation: none; }
+}
 .song-scroll > ul { padding-inline: 1rem; padding-top: .5rem; }
 @media (max-width: 380px) {
   .ocarina-sequence { gap: 5px; }
