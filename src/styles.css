@@ -192,3 +192,14 @@ main > *:not(.triforce-bg) { position: relative; z-index: 1; }
 @media (prefers-reduced-motion: reduce) {
   .seq-btn { transition: none; }
 }
+.panel { position: relative; overflow: hidden; }
+.panel::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(110deg, transparent 30%, oklch(0.95 0.08 90 / 22%) 50%, transparent 70%);
+  transform: translateX(-120%);
+}
+@media (hover: hover) {
+  .panel:hover::after { animation: song-sheen .8s ease-out; }
+}
+@keyframes song-sheen { to { transform: translateX(120%); } }
+@media (prefers-reduced-motion: reduce) { .panel:hover::after { animation: none; } }
