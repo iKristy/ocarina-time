@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
 import { OcarinaShape } from "@/components/ocarina-shape";
 import { GlowSettings } from "@/components/glow-settings";
-import { readGlowPreset, type GlowPreset } from "@/lib/glow-presets";
+import { readGlowPreset, readCustomGlow, DEFAULT_CUSTOM_GLOW, customGlowTokens, type CustomGlow, type GlowPreset } from "@/lib/glow-presets";
 import { RotateCcw } from "lucide-react";
 import { AVAILABLE_NOTES, SCARECROW_LENGTH, readScarecrow, saveScarecrow, resetScarecrow } from "@/lib/scarecrow-song";
 import { createOcarinaPlayer, SONGS, songTiming, type Note } from "@/lib/ocarina-playback";
@@ -34,7 +34,8 @@ function Index() {
   const [scarecrow, setScarecrow] = useState<Note[] | null>(null);
   const [recording, setRecording] = useState(false);
   const [glowPreset, setGlowPreset] = useState<GlowPreset>("mist");
-  useEffect(() => { setGlowPreset(readGlowPreset()); }, []);
+  const [customGlow, setCustomGlow] = useState<CustomGlow>(DEFAULT_CUSTOM_GLOW);
+  useEffect(() => { setGlowPreset(readGlowPreset()); setCustomGlow(readCustomGlow()); }, []);
   const [draft, setDraft] = useState<Note[]>([]);
   useEffect(() => { setScarecrow(readScarecrow()); }, []);
   const tapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -131,7 +132,7 @@ function Index() {
       <svg aria-hidden="true" viewBox="0 0 22 19" className="triforce-bg">
         <path d="M11 0 16.5 9.5H5.5Z M5.5 9.5 11 19H0Z M16.5 9.5 22 19H11Z" fill="currentColor" />
       </svg>
-      <GlowSettings saved={glowPreset} onSave={setGlowPreset} />
+      <GlowSettings saved={glowPreset} custom={customGlow} onSave={(preset, custom) => { setGlowPreset(preset); setCustomGlow(custom); }} />
       <header className="text-center">
         <p className="font-serif text-xs tracking-[0.4em] text-muted-foreground">THE LEGEND OF ZELDA</p>
         <h1 className="gold-text font-serif text-4xl font-bold leading-tight"><span className="font-display">O</span>carina <span className="title-of">of</span> <span className="font-display">T</span>ime</h1>
@@ -172,7 +173,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="ocarina-display" data-recording={recording} data-glow={glowPreset} aria-label="Ocarina button sequence">
+      <section className="ocarina-display" data-recording={recording} data-glow={glowPreset} style={glowPreset === "custom" ? customGlowTokens(customGlow) as CSSProperties : undefined} aria-label="Ocarina button sequence">
         <OcarinaShape />
         <div className="ocarina-sequence">
           {(recording ? AVAILABLE_NOTES : song.notes.split("") as Note[]).map((n, i) => (
