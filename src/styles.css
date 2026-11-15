@@ -179,7 +179,8 @@
 .scarecrow-progress span[data-filled="true"] { background: var(--gold); }
 @media (prefers-reduced-motion: reduce) {
   .ocarina-display[data-recording="true"] .ocarina-shape, .ocarina-display[data-preview="true"] .ocarina-shape { animation: none; }
-  .ocarina-display[data-glow="custom"] .ocarina-shape { animation: none; }
+  .ocarina-display[data-glow="custom"][data-recording="true"] .ocarina-shape,
+  .ocarina-display[data-glow="custom"][data-preview="true"] .ocarina-shape { animation: none; }
   .glow-settings[data-state] { animation: none; }
   .scarecrow-recording-dot { animation: none; }
 }
