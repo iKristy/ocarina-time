@@ -34,4 +34,4 @@ use the editor.
 - Keep song row content at fixed geometry; crossfade idle and selected frames with matching scale transitions, and animate border color on a separate inner layer so playback and hover never reposition the frame.
 - Draw song keyboard focus on a separate pseudo-element sharing the frame's scale; change only border colors on press and remove scroll fades during focus so indicators remain aligned and visible without moving content.
 - Keep home-screen support manifest-only with PNG and maskable icons; add no app-shell service worker unless offline support is explicitly requested, to avoid stale preview caches.
-- Store the eight-note custom Scarecrow sequence in a validated first-party cookie, read after hydration; reuse shared audio-clock playback and keep reset separate from the song button to avoid nested controls.
+- Store the eight-note custom Scarecrow sequence in a validated first-party cookie, read after hydration; reuse shared audio-clock playback, keep reset separate from the song button to avoid nested controls, and let the tile itself toggle recording off (discarding the draft) rather than nesting a second control.
