@@ -134,6 +134,17 @@
 [data-glow="moonlight"] { --ocarina-recording-glow: var(--glow-moonlight); --glow-spread: 24px; --glow-inner-spread: 8px; --glow-duration: 2.2s; --glow-brightness: 1.06; }
 [data-glow="fairy"] { --ocarina-recording-glow: var(--glow-fairy); --glow-spread: 38px; --glow-inner-spread: 16px; --glow-duration: 1.6s; --glow-brightness: 1.08; }
 .ocarina-display[data-glow="off"] .ocarina-shape { animation: none; }
+[data-glow="custom"] { --ocarina-recording-glow: color-mix(in srgb, var(--glow-custom-color) var(--glow-custom-opacity), transparent); --glow-brightness: 1; }
+.ocarina-display[data-glow="custom"][data-recording="true"] .ocarina-shape,
+.ocarina-display[data-glow="custom"][data-preview="true"] .ocarina-shape { animation: custom-glow-in var(--glow-fade-in) ease-out forwards, custom-glow-out var(--glow-fade-out) var(--glow-fade-in) ease-out forwards; }
+@keyframes custom-glow-in {
+  from { filter: drop-shadow(0 0 0 transparent) drop-shadow(0 0 0 transparent); }
+  to { filter: drop-shadow(0 0 var(--glow-spread) var(--ocarina-recording-glow)) drop-shadow(0 0 var(--glow-inner-spread) var(--ocarina-recording-glow)); }
+}
+@keyframes custom-glow-out {
+  from { filter: drop-shadow(0 0 var(--glow-spread) var(--ocarina-recording-glow)) drop-shadow(0 0 var(--glow-inner-spread) var(--ocarina-recording-glow)); }
+  to { filter: drop-shadow(0 0 0 transparent) drop-shadow(0 0 0 transparent); }
+}
 .glow-settings-trigger { position: absolute; right: 8px; top: 6px; color: var(--gold); }
 .glow-settings { width: calc(100% - 32px); max-width: 390px; max-height: calc(100dvh - 32px); overflow-y: auto; border-radius: 8px; }
 .glow-preview { width: 100%; max-width: 290px; margin: -16px auto -12px; }
@@ -142,6 +153,13 @@
 .glow-swatch { width: 14px; height: 14px; flex-shrink: 0; border-radius: 50%; background: var(--ocarina-recording-glow); border: 1px solid var(--muted-foreground); }
 [data-glow="off"] .glow-swatch { background: transparent; }
 .glow-save { border: 1px solid var(--gold); color: var(--gold); }
+.glow-custom-controls { display: grid; gap: 12px; border-top: 1px solid var(--border); padding-top: 10px; }
+.glow-control { display: grid; gap: 10px; }
+.glow-control output { font-variant-numeric: tabular-nums; color: var(--muted-foreground); }
+.glow-control [role="slider"] { width: 20px; height: 20px; }
+.glow-color-input { width: 48px; height: 32px; cursor: pointer; background: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 3px; }
+.glow-color-input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+@media (max-height: 760px) { .glow-preview { max-width: 200px; } }
 @keyframes ocarina-recording {
   0%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent) drop-shadow(0 0 0 transparent); }
   10% { filter: brightness(var(--glow-brightness)) drop-shadow(0 0 var(--glow-spread) var(--ocarina-recording-glow)) drop-shadow(0 0 var(--glow-inner-spread) var(--ocarina-recording-glow)); }
@@ -161,6 +179,8 @@
 .scarecrow-progress span[data-filled="true"] { background: var(--gold); }
 @media (prefers-reduced-motion: reduce) {
   .ocarina-display[data-recording="true"] .ocarina-shape, .ocarina-display[data-preview="true"] .ocarina-shape { animation: none; }
+  .ocarina-display[data-glow="custom"][data-recording="true"] .ocarina-shape,
+  .ocarina-display[data-glow="custom"][data-preview="true"] .ocarina-shape { animation: none; }
   .glow-settings[data-state] { animation: none; }
   .scarecrow-recording-dot { animation: none; }
 }
