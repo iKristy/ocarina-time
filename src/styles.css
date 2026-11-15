@@ -126,7 +126,7 @@
 .ocarina-display[data-recording="true"] .ocarina-shape { animation: ocarina-recording 1.2s cubic-bezier(.2, .9, .3, 1) 1; }
 @keyframes ocarina-recording {
   0%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent) drop-shadow(0 0 0 transparent); }
-  25% { filter: brightness(1.18) drop-shadow(0 0 16px var(--ocarina-recording-glow)) drop-shadow(0 0 5px var(--ocarina-recording-glow)); }
+  10% { filter: brightness(1.1) drop-shadow(0 0 12px var(--ocarina-recording-glow)) drop-shadow(0 0 4px var(--ocarina-recording-glow)); }
 }
 .scarecrow-row { position: relative; }
 .scarecrow-title { display: inline-flex; align-items: center; gap: 8px; }
