@@ -123,10 +123,10 @@
   filter: drop-shadow(0 12px 12px var(--ocarina-shadow));
 }
 .ocarina-shape { display: block; width: 100%; height: 100%; }
-.ocarina-display[data-recording="true"] .ocarina-shape { animation: ocarina-recording 3s ease-in-out 1; }
+.ocarina-display[data-recording="true"] .ocarina-shape { animation: ocarina-recording .7s cubic-bezier(.2, .9, .3, 1) 1; }
 @keyframes ocarina-recording {
-  0%, 85%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent) drop-shadow(0 0 0 transparent); }
-  30% { filter: brightness(1.12) drop-shadow(0 0 16px var(--ocarina-recording-glow)) drop-shadow(0 0 5px var(--ocarina-recording-glow)); }
+  0%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent) drop-shadow(0 0 0 transparent); }
+  15% { filter: brightness(1.18) drop-shadow(0 0 16px var(--ocarina-recording-glow)) drop-shadow(0 0 5px var(--ocarina-recording-glow)); }
 }
 .scarecrow-row { position: relative; }
 .scarecrow-title { display: inline-flex; align-items: center; gap: 8px; }
