@@ -81,7 +81,10 @@ it("taps the Scarecrow's Song tile again to stop recording and discard the notes
   expect(screen.queryByText("1/8")).toBeNull();
   expect(screen.getByText("Empty")).toBeInTheDocument();
   expect(screen.queryByLabelText("Recording notes")).toBeNull();
-  expect(screen.getAllByRole("button", { name: /^Play / })).toHaveLength(SONGS[0].notes.length);
+  const firstSong = SONGS[0];
+  expect(firstSong).toBeDefined();
+  if (!firstSong) return;
+  expect(screen.getAllByRole("button", { name: /^Play / })).toHaveLength(firstSong.notes.length);
 });
 
 it("schedules Zelda's Lullaby using the attached beat lengths", async () => {
