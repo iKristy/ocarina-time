@@ -30,7 +30,7 @@ use the editor.
 <!-- LOVABLE:END -->
 
 - Render the ocarina as an inline SVG with its sequence positioned in the same aspect-ratio container, so the instrument and notes stay aligned across screen sizes.
-- Reuse the instrument SVG for glow previews, scope preset tokens (including validated custom color, spread, opacity, and independent fade times) to each display, and save preset IDs and custom values in first-party cookies after hydration so settings stay device-local without changing audio or recording.
+- Apply the fixed recording glow through scoped semantic tokens with independent fade-in/out animations; ignore legacy glow cookies so every device uses the same effect, and disable animation for reduced motion.
 - Keep song beat data and lazy browser audio synthesis in a shared playback module; schedule voices on the audio clock so per-song rhythms remain accurate and playback can be interrupted.
 - Keep song row content at fixed geometry; crossfade idle and selected frames with matching scale transitions, and animate border color on a separate inner layer so playback and hover never reposition the frame.
 - Draw song keyboard focus on a separate pseudo-element sharing the frame's scale; change only border colors on press and remove scroll fades during focus so indicators remain aligned and visible without moving content.
