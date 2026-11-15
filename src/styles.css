@@ -44,7 +44,7 @@
   --song-selection-inner-glow: inset 0 0 8px oklch(0.78 0.15 90 / 15%);
   --song-note-glow: 0 0 5px oklch(0.95 0.1 95 / 80%), 0 0 10px oklch(0.8 0.13 85 / 55%);
   --song-focus-border: var(--crest-gold-light);
-  --ocarina-recording-glow: oklch(0.95 0.07 230 / 85%);
+  --ocarina-recording-glow: oklch(0.95 0.07 230 / 50%);
   --recording-indicator: oklch(0.7 0.21 25);
   --song-touch-frame-shadow: inset 0 0 0 3px var(--song-frame-background), inset 0 0 0 4px var(--gold);
   --cbtn: oklch(0.85 0.17 95);
@@ -126,7 +126,7 @@
 .ocarina-display[data-recording="true"] .ocarina-shape { animation: ocarina-recording 1.2s cubic-bezier(.2, .9, .3, 1) 1; }
 @keyframes ocarina-recording {
   0%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent) drop-shadow(0 0 0 transparent); }
-  10% { filter: brightness(1.1) drop-shadow(0 0 12px var(--ocarina-recording-glow)) drop-shadow(0 0 4px var(--ocarina-recording-glow)); }
+  10% { filter: brightness(1.1) drop-shadow(0 0 22px var(--ocarina-recording-glow)) drop-shadow(0 0 8px var(--ocarina-recording-glow)); }
 }
 .scarecrow-row { position: relative; }
 .scarecrow-title { display: inline-flex; align-items: center; gap: 8px; }
