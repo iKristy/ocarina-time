@@ -149,7 +149,8 @@ function Index() {
             </li>
           ))}
           <li className="scarecrow-row">
-            <Button variant="ghost" onClick={() => scarecrow ? playSong(SONGS.length) : beginRecording()}
+            <Button variant="ghost" onClick={() => recording ? cancelRecording() : scarecrow ? playSong(SONGS.length) : beginRecording()}
+              aria-pressed={recording}
               data-playing={selected === SONGS.length && isPlaying}
               className={`panel song-item flex h-auto w-full items-center justify-start gap-3 whitespace-normal rounded-lg px-4 py-3.5 text-left font-body text-lg font-normal ${selected === SONGS.length ? "song-selected text-gold" : "text-foreground"} ${scarecrow ? "scarecrow-saved" : ""}`}>
               <span aria-hidden="true" className="song-selected-frame" />
