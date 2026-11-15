@@ -1,13 +1,18 @@
 import { createElement, type ComponentType } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, expect, it } from "vitest";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { GLOW_COOKIE, CUSTOM_GLOW_COOKIE, DEFAULT_CUSTOM_GLOW, parseCustomGlow, readCustomGlow, saveCustomGlow, parseGlowPreset, readGlowPreset, saveGlowPreset } from "@/lib/glow-presets";
 import { Route } from "@/routes/index";
+
+beforeEach(() => {
+  vi.stubGlobal("ResizeObserver", class { observe() {} unobserve() {} disconnect() {} });
+});
 
 afterEach(() => {
   cleanup();
   document.cookie = `${GLOW_COOKIE}=; Path=/; Max-Age=0`;
   document.cookie = `${CUSTOM_GLOW_COOKIE}=; Path=/; Max-Age=0`;
+  vi.unstubAllGlobals();
 });
 
 it("saves all custom glow adjustments without losing separate fade times", () => {
