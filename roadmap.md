@@ -1,0 +1,2 @@
+- [x] Add glow preset settings with preview and device-local saving.
+- [x] Verify saved choices, recording glow, mobile layout, and reduced motion.
