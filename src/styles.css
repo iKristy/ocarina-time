@@ -136,7 +136,6 @@
 .ocarina-display[data-glow="off"] .ocarina-shape { animation: none; }
 .glow-settings-trigger { position: absolute; right: 8px; top: 6px; color: var(--gold); }
 .glow-settings { width: calc(100% - 32px); max-width: 390px; max-height: calc(100dvh - 32px); overflow-y: auto; border-radius: 8px; }
-.glow-settings ~ * { color: inherit; }
 .glow-preview { width: 100%; max-width: 290px; margin: -16px auto -12px; }
 .glow-preset { justify-content: flex-start; border: 1px solid var(--border); border-radius: 6px; height: 44px; }
 .glow-preset[aria-pressed="true"] { border-color: var(--gold); background: var(--muted); color: var(--crest-gold-light); }
