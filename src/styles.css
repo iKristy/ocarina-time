@@ -45,6 +45,13 @@
   --song-note-glow: 0 0 5px oklch(0.95 0.1 95 / 80%), 0 0 10px oklch(0.8 0.13 85 / 55%);
   --song-focus-border: var(--crest-gold-light);
   --ocarina-recording-glow: oklch(0.95 0.07 230 / 35%);
+  --glow-moonlight: oklch(0.93 0.025 250 / 28%);
+  --glow-fairy: oklch(0.88 0.1 165 / 32%);
+  --glow-overlay: oklch(0.08 0.025 250 / 80%);
+  --glow-spread: 32px;
+  --glow-inner-spread: 12px;
+  --glow-duration: 1.8s;
+  --glow-brightness: 1.1;
   --recording-indicator: oklch(0.7 0.21 25);
   --song-touch-frame-shadow: inset 0 0 0 3px var(--song-frame-background), inset 0 0 0 4px var(--gold);
   --cbtn: oklch(0.85 0.17 95);
@@ -123,10 +130,22 @@
   filter: drop-shadow(0 12px 12px var(--ocarina-shadow));
 }
 .ocarina-shape { display: block; width: 100%; height: 100%; }
-.ocarina-display[data-recording="true"] .ocarina-shape { animation: ocarina-recording 1.8s cubic-bezier(.2, .9, .3, 1) 1; }
+.ocarina-display[data-recording="true"] .ocarina-shape, .ocarina-display[data-preview="true"] .ocarina-shape { animation: ocarina-recording var(--glow-duration) cubic-bezier(.2, .9, .3, 1) 1; }
+[data-glow="moonlight"] { --ocarina-recording-glow: var(--glow-moonlight); --glow-spread: 24px; --glow-inner-spread: 8px; --glow-duration: 2.2s; --glow-brightness: 1.06; }
+[data-glow="fairy"] { --ocarina-recording-glow: var(--glow-fairy); --glow-spread: 38px; --glow-inner-spread: 16px; --glow-duration: 1.6s; --glow-brightness: 1.08; }
+.ocarina-display[data-glow="off"] .ocarina-shape { animation: none; }
+.glow-settings-trigger { position: absolute; right: 8px; top: 6px; color: var(--gold); }
+.glow-settings { width: calc(100% - 32px); max-width: 390px; max-height: calc(100dvh - 32px); overflow-y: auto; border-radius: 8px; }
+.glow-settings ~ * { color: inherit; }
+.glow-preview { width: 100%; max-width: 290px; margin: -16px auto -12px; }
+.glow-preset { justify-content: flex-start; border: 1px solid var(--border); border-radius: 6px; height: 44px; }
+.glow-preset[aria-pressed="true"] { border-color: var(--gold); background: var(--muted); color: var(--crest-gold-light); }
+.glow-swatch { width: 14px; height: 14px; flex-shrink: 0; border-radius: 50%; background: var(--ocarina-recording-glow); border: 1px solid var(--muted-foreground); }
+[data-glow="off"] .glow-swatch { background: transparent; }
+.glow-save { border: 1px solid var(--gold); color: var(--gold); }
 @keyframes ocarina-recording {
   0%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent) drop-shadow(0 0 0 transparent); }
-  10% { filter: brightness(1.1) drop-shadow(0 0 32px var(--ocarina-recording-glow)) drop-shadow(0 0 12px var(--ocarina-recording-glow)); }
+  10% { filter: brightness(var(--glow-brightness)) drop-shadow(0 0 var(--glow-spread) var(--ocarina-recording-glow)) drop-shadow(0 0 var(--glow-inner-spread) var(--ocarina-recording-glow)); }
 }
 .scarecrow-row { position: relative; }
 .scarecrow-title { display: inline-flex; align-items: center; gap: 8px; }
@@ -142,30 +161,30 @@
 .scarecrow-progress span { width: 6px; height: 6px; border-radius: 50%; border: 1px solid var(--gold); }
 .scarecrow-progress span[data-filled="true"] { background: var(--gold); }
 @media (prefers-reduced-motion: reduce) {
-  .ocarina-display[data-recording="true"] .ocarina-shape { animation: none; }
+  .ocarina-display[data-recording="true"] .ocarina-shape, .ocarina-display[data-preview="true"] .ocarina-shape { animation: none; }
+  .glow-settings[data-state] { animation: none; }
   .scarecrow-recording-dot { animation: none; }
 }
 .ocarina-stop-light { stop-color: var(--ocarina-light); }
 .ocarina-stop-blue { stop-color: var(--ocarina-blue); }
 .ocarina-stop-dark { stop-color: var(--ocarina-dark); }
-.ocarina-body { fill: url(#ocarina-body); stroke: var(--ocarina-dark); stroke-width: 2; }
+.ocarina-body { stroke: var(--ocarina-dark); stroke-width: 2; }
 .ocarina-stop-deep { stop-color: var(--ocarina-deep); }
 .ocarina-stop-glaze { stop-color: var(--ocarina-glaze); }
 .ocarina-stop-clear { stop-color: var(--ocarina-glaze); stop-opacity: 0; }
 .ocarina-stop-glint { stop-color: var(--ocarina-metal-glint); }
-.ocarina-glaze { fill: url(#ocarina-glaze); }
-.ocarina-reflection { fill: none; stroke: var(--ocarina-reflection); stroke-width: 9; stroke-linecap: round; filter: url(#ocarina-soften); }
+.ocarina-glaze { opacity: 1; }
+.ocarina-reflection { fill: none; stroke: var(--ocarina-reflection); stroke-width: 9; stroke-linecap: round; }
 .ocarina-glint { fill: none; stroke: var(--ocarina-glaze); stroke-width: 2; stroke-linecap: round; }
 .ocarina-mottle { opacity: .18; mix-blend-mode: soft-light; }
 .ocarina-speckle { opacity: .09; mix-blend-mode: screen; }
 .ocarina-metal-detail { fill: none; stroke: var(--ocarina-metal-engraving); stroke-width: 1; opacity: .65; }
 .ocarina-stop-silver { stop-color: var(--ocarina-silver); }
 .ocarina-stop-silver-dark { stop-color: var(--ocarina-silver-dark); }
-.ocarina-collar { fill: url(#ocarina-collar); stroke: var(--ocarina-silver-dark); stroke-width: 1.5; }
-.ocarina-highlight { fill: none; stroke: var(--ocarina-shine); stroke-width: 8; stroke-linecap: round; filter: url(#ocarina-soften); }
-.ocarina-contour { fill: none; stroke: var(--ocarina-deep); stroke-width: 12; stroke-linecap: round; opacity: 0.55; filter: url(#ocarina-soften); }
+.ocarina-collar { stroke: var(--ocarina-silver-dark); stroke-width: 1.5; }
+.ocarina-highlight { fill: none; stroke: var(--ocarina-shine); stroke-width: 8; stroke-linecap: round; }
+.ocarina-contour { fill: none; stroke: var(--ocarina-deep); stroke-width: 12; stroke-linecap: round; opacity: 0.55; }
 .ocarina-triforce {
-  fill: url(#crest-gold);
   overflow: visible;
   filter: drop-shadow(0 -0.35px 0 var(--crest-metal-highlight)) drop-shadow(0 0.7px 0.45px var(--crest-metal-shadow));
 }

@@ -45,15 +45,15 @@ export function OcarinaShape() {
             <use href={`#${id}-ocarina-outline`} className="ocarina-glaze" fill={`url(#${id}-ocarina-glaze)`} />
             <rect className="ocarina-mottle" x="0" y="0" width="420" height="300" filter={`url(#${id}-ceramic-mottle)`} />
             <rect className="ocarina-speckle" x="0" y="0" width="420" height="300" filter={`url(#${id}-ceramic-speckle)`} />
-            <path className="ocarina-contour" d="M 30 228 C 72 283 225 283 393 208" />
-            <path className="ocarina-reflection" d="M 46 241 C 108 279 253 248 369 222" />
-            <path className="ocarina-highlight" d="M 44 174 C 61 155 77 148 93 144 M 121 67 Q 118 78 118 94" />
-            <path className="ocarina-reflection" d="M 229 137 Q 315 150 386 183" />
+            <path className="ocarina-contour" filter={`url(#${id}-ocarina-soften)`} d="M 30 228 C 72 283 225 283 393 208" />
+            <path className="ocarina-reflection" filter={`url(#${id}-ocarina-soften)`} d="M 46 241 C 108 279 253 248 369 222" />
+            <path className="ocarina-highlight" filter={`url(#${id}-ocarina-soften)`} d="M 44 174 C 61 155 77 148 93 144 M 121 67 Q 118 78 118 94" />
+            <path className="ocarina-reflection" filter={`url(#${id}-ocarina-soften)`} d="M 229 137 Q 315 150 386 183" />
           </g>
           <g transform="translate(-45 0)">
           <path className="ocarina-collar" fill={`url(#${id}-ocarina-collar)`} d="M 154 100 Q 180 104 206 100 C 211 117 215 122 220 126 Q 220 127 218 128 Q 181 142 146 130 Q 144 130 144 129 C 150 119 153 107 154 100 Z" />
           <path className="ocarina-metal-detail" d="M 154 104 Q 180 109 207 104 M 147 127 Q 181 139 214 127" />
-          <svg className="ocarina-triforce" x="163.7" y="106.2" width="34.6" height="24.2" viewBox="0 0 22 19" aria-hidden="true">
+          <svg className="ocarina-triforce" fill={`url(#${id}-crest-gold)`} x="163.7" y="106.2" width="34.6" height="24.2" viewBox="0 0 22 19" aria-hidden="true">
             <path d="M11 0 16.5 9.5H5.5Z M5.5 9.5 11 19H0Z M16.5 9.5 22 19H11Z" />
           </svg>
           </g>
