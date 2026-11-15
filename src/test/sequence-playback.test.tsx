@@ -67,6 +67,26 @@ it("discards recorded notes on reset and saves only the new eight-note sequence"
   resetScarecrow();
 });
 
+it("taps the Scarecrow's Song tile again to stop recording and discard the notes", () => {
+  const Page = Route.options.component as ComponentType;
+  render(createElement(Page));
+  const tile = screen.getByRole("button", { name: /Scarecrow’s Song/ });
+  fireEvent.click(tile);
+  expect(tile).toHaveAttribute("aria-pressed", "true");
+  expect(screen.getByText("0/8")).toBeInTheDocument();
+  fireEvent.click(screen.getByRole("button", { name: "Play L note 1" }));
+  expect(screen.getByText("1/8")).toBeInTheDocument();
+  fireEvent.click(tile);
+  expect(tile).toHaveAttribute("aria-pressed", "false");
+  expect(screen.queryByText("1/8")).toBeNull();
+  expect(screen.getByText("Empty")).toBeInTheDocument();
+  expect(screen.queryByLabelText("Recording notes")).toBeNull();
+  const firstSong = SONGS[0];
+  expect(firstSong).toBeDefined();
+  if (!firstSong) return;
+  expect(screen.getAllByRole("button", { name: /^Play / })).toHaveLength(firstSong.notes.length);
+});
+
 it("schedules Zelda's Lullaby using the attached beat lengths", async () => {
   vi.useFakeTimers();
   const Page = Route.options.component as ComponentType;

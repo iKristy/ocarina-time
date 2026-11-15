@@ -33,6 +33,7 @@ function Index() {
   const [draft, setDraft] = useState<Note[]>([]);
   useEffect(() => { setScarecrow(readScarecrow()); }, []);
   const tapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const setSelectedBeforeRecording = useRef(0);
   const player = useRef<ReturnType<typeof createOcarinaPlayer> | null>(null);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const voices = useRef<{ stop(): void }[]>([]);
@@ -105,9 +106,15 @@ function Index() {
     stopPlayback();
     if (tapTimer.current) clearTimeout(tapTimer.current);
     setTappedNote(null);
+    setSelectedBeforeRecording.current = selected;
     setSelected(SONGS.length);
     setDraft([]);
     setRecording(true);
+  };
+  const cancelRecording = () => {
+    setRecording(false);
+    setDraft([]);
+    setSelected(setSelectedBeforeRecording.current);
   };
   const song = selected === SONGS.length
     ? { notes: scarecrow?.join("") ?? "" }
@@ -142,7 +149,8 @@ function Index() {
             </li>
           ))}
           <li className="scarecrow-row">
-            <Button variant="ghost" onClick={() => scarecrow ? playSong(SONGS.length) : beginRecording()}
+            <Button variant="ghost" onClick={() => recording ? cancelRecording() : scarecrow ? playSong(SONGS.length) : beginRecording()}
+              aria-pressed={recording}
               data-playing={selected === SONGS.length && isPlaying}
               className={`panel song-item flex h-auto w-full items-center justify-start gap-3 whitespace-normal rounded-lg px-4 py-3.5 text-left font-body text-lg font-normal ${selected === SONGS.length ? "song-selected text-gold" : "text-foreground"} ${scarecrow ? "scarecrow-saved" : ""}`}>
               <span aria-hidden="true" className="song-selected-frame" />
