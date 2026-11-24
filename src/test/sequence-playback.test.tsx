@@ -18,32 +18,66 @@ beforeEach(() => {
   start.mockClear();
   pitches.length = 0;
   const node = () => ({ connect: vi.fn().mockReturnThis() });
-  vi.stubGlobal("AudioContext", class {
-    state = "running";
-    currentTime = 0;
-    sampleRate = 44100;
-    destination = {};
-    close() { return Promise.resolve(); }
-    createBuffer(_channels: number, length: number) { return { getChannelData: () => new Float32Array(length) }; }
-    createBufferSource() { return { ...node(), buffer: null, loop: false, start, stop: vi.fn() }; }
-    createGain() {
-      return { ...node(), disconnect: vi.fn(), gain: { value: 0, setValueAtTime: vi.fn(), linearRampToValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn(), setTargetAtTime: vi.fn(), cancelScheduledValues: vi.fn() } };
-    }
-    createBiquadFilter() {
-      return { ...node(), type: "", frequency: { value: 0 }, Q: { value: 0 } };
-    }
-    createConvolver() { return { ...node(), buffer: null }; }
-    createDynamicsCompressor() {
-      return { ...node(), ...Object.fromEntries(["threshold", "knee", "ratio", "attack", "release"].map(key => [key, { value: 0 }])) };
-    }
-    createOscillator() {
-      return {
-        ...node(), type: "", start, stop: vi.fn(),
-        detune: { setValueAtTime: vi.fn(), linearRampToValueAtTime: vi.fn() },
-        frequency: { value: 0, setValueAtTime: (value: number) => pitches.push(value), exponentialRampToValueAtTime: vi.fn() },
-      };
-    }
-  });
+  vi.stubGlobal(
+    "AudioContext",
+    class {
+      state = "running";
+      currentTime = 0;
+      sampleRate = 44100;
+      destination = {};
+      close() {
+        return Promise.resolve();
+      }
+      createBuffer(_channels: number, length: number) {
+        return { getChannelData: () => new Float32Array(length) };
+      }
+      createBufferSource() {
+        return { ...node(), buffer: null, loop: false, start, stop: vi.fn() };
+      }
+      createGain() {
+        return {
+          ...node(),
+          disconnect: vi.fn(),
+          gain: {
+            value: 0,
+            setValueAtTime: vi.fn(),
+            linearRampToValueAtTime: vi.fn(),
+            exponentialRampToValueAtTime: vi.fn(),
+            setTargetAtTime: vi.fn(),
+            cancelScheduledValues: vi.fn(),
+          },
+        };
+      }
+      createBiquadFilter() {
+        return { ...node(), type: "", frequency: { value: 0 }, Q: { value: 0 } };
+      }
+      createConvolver() {
+        return { ...node(), buffer: null };
+      }
+      createDynamicsCompressor() {
+        return {
+          ...node(),
+          ...Object.fromEntries(
+            ["threshold", "knee", "ratio", "attack", "release"].map((key) => [key, { value: 0 }]),
+          ),
+        };
+      }
+      createOscillator() {
+        return {
+          ...node(),
+          type: "",
+          start,
+          stop: vi.fn(),
+          detune: { setValueAtTime: vi.fn(), linearRampToValueAtTime: vi.fn() },
+          frequency: {
+            value: 0,
+            setValueAtTime: (value: number) => pitches.push(value),
+            exponentialRampToValueAtTime: vi.fn(),
+          },
+        };
+      }
+    },
+  );
 });
 
 it("neither selects nor focuses a song on initial load", () => {
@@ -51,7 +85,13 @@ it("neither selects nor focuses a song on initial load", () => {
   const { container } = render(createElement(Page));
   expect(container.querySelector(".song-selected")).toBeNull();
   expect(document.activeElement).toBe(document.body);
-  expect(screen.getAllByRole("button", { name: /^Play / }).map(b => b.textContent)).toEqual(["L", "R", "A", "Y", "X"]);
+  expect(screen.getAllByRole("button", { name: /^Play / }).map((b) => b.textContent)).toEqual([
+    "L",
+    "R",
+    "A",
+    "Y",
+    "X",
+  ]);
 });
 
 it("plays notes freely before any song is chosen", () => {
@@ -78,9 +118,11 @@ it("discards recorded notes on reset and saves only the new eight-note sequence"
   const Page = Route.options.component as ComponentType;
   render(createElement(Page));
   fireEvent.click(screen.getByRole("button", { name: /Scarecrow’s Song/ }));
-  for (let i = 0; i < 3; i++) fireEvent.click(screen.getByRole("button", { name: "Play L note 1" }));
+  for (let i = 0; i < 3; i++)
+    fireEvent.click(screen.getByRole("button", { name: "Play L note 1" }));
   fireEvent.click(screen.getByRole("button", { name: "Reset Scarecrow’s Song" }));
-  for (let i = 0; i < 7; i++) fireEvent.click(screen.getByRole("button", { name: "Play X note 5" }));
+  for (let i = 0; i < 7; i++)
+    fireEvent.click(screen.getByRole("button", { name: "Play X note 5" }));
   expect(readScarecrow()).toBeNull();
   fireEvent.click(screen.getByRole("button", { name: "Play X note 5" }));
   expect(readScarecrow()).toEqual(["U", "U", "U", "U", "U", "U", "U", "U"]);
@@ -130,10 +172,12 @@ it.each([
   ["Nocturne of Shadow", 170, [1, 1, 2, 2, 1, 1, 4]],
   ["Prelude of Light", 170, [1, 1, 2, 1, 1, 3]],
 ] as const)("preserves %s's tempo and rhythm", (name, bpm, beats) => {
-  const song = SONGS.find(song => song.name === name);
+  const song = SONGS.find((song) => song.name === name);
   expect(song).toBeDefined();
   if (!song) return;
   expect(song.bpm).toBe(bpm);
   expect(song.beats).toEqual(beats);
-  expect(songTiming(song).map(event => event.beat)).toEqual(beats.map(beat => beat * 60 / bpm));
+  expect(songTiming(song).map((event) => event.beat)).toEqual(
+    beats.map((beat) => (beat * 60) / bpm),
+  );
 });

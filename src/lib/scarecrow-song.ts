@@ -10,7 +10,9 @@ export function parseScarecrow(value: string): Note[] | null {
 }
 
 export function readScarecrow(): Note[] | null {
-  const cookie = document.cookie.split("; ").find(part => part.startsWith(`${SCARECROW_COOKIE}=`));
+  const cookie = document.cookie
+    .split("; ")
+    .find((part) => part.startsWith(`${SCARECROW_COOKIE}=`));
   return cookie ? parseScarecrow(cookie.slice(SCARECROW_COOKIE.length + 1)) : null;
 }
 
