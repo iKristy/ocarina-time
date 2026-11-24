@@ -1,5 +1,3 @@
-![Ocarina of Time](/public/og-image.png)
-
 # Ocarina of Time
 
 Play the songs of Hyrule on the blue ocarina, right from your phone.
