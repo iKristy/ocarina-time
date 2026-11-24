@@ -51,7 +51,16 @@ it("neither selects nor focuses a song on initial load", () => {
   const { container } = render(createElement(Page));
   expect(container.querySelector(".song-selected")).toBeNull();
   expect(document.activeElement).toBe(document.body);
-  expect(screen.queryAllByRole("button", { name: /^Play / })).toHaveLength(0);
+  expect(screen.getAllByRole("button", { name: /^Play / }).map(b => b.textContent)).toEqual(["L", "R", "A", "Y", "X"]);
+});
+
+it("plays notes freely before any song is chosen", () => {
+  const Page = Route.options.component as ComponentType;
+  const { container } = render(createElement(Page));
+  fireEvent.click(screen.getByRole("button", { name: "Play X note 5" }));
+  expect(start).toHaveBeenCalledTimes(6);
+  expect(pitches[0]).toBeCloseTo(1174.66 * 0.982);
+  expect(container.querySelector(".song-selected")).toBeNull();
 });
 
 it("plays the selected sequence note when tapped", () => {
@@ -92,7 +101,7 @@ it("taps the Scarecrow's Song tile again to stop recording and discard the notes
   expect(screen.queryByText("1/8")).toBeNull();
   expect(screen.getByText("Empty")).toBeInTheDocument();
   expect(screen.queryByLabelText("Recording notes")).toBeNull();
-  expect(screen.queryAllByRole("button", { name: /^Play / })).toHaveLength(0);
+  expect(screen.getAllByRole("button", { name: /^Play / })).toHaveLength(5);
 });
 
 it("schedules Zelda's Lullaby using the attached beat lengths", async () => {

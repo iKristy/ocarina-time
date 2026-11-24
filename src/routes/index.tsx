@@ -122,11 +122,10 @@ function Index() {
     setDraft([]);
     setSelected(selectedBeforeRecording.current);
   };
-  const notes: Note[] = recording
-    ? AVAILABLE_NOTES
-    : selected === SCARECROW_INDEX
-      ? scarecrow ?? []
-      : selected === null ? [] : (SONGS[selected]?.notes.split("") as Note[] | undefined) ?? [];
+  const songNotes = selected === SCARECROW_INDEX
+    ? scarecrow
+    : selected === null ? null : SONGS[selected]?.notes.split("") as Note[] | undefined;
+  const notes: Note[] = recording ? AVAILABLE_NOTES : songNotes ?? AVAILABLE_NOTES;
   const scarecrowSelected = selected === SCARECROW_INDEX;
 
   return (
