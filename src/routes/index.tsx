@@ -1,8 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { OcarinaShape } from "@/components/ocarina-shape";
-import { RECORDING_GLOW, customGlowTokens } from "@/lib/glow-presets";
 import { RotateCcw } from "lucide-react";
 import { AVAILABLE_NOTES, SCARECROW_LENGTH, readScarecrow, saveScarecrow, resetScarecrow } from "@/lib/scarecrow-song";
 import { createOcarinaPlayer, SONGS, songTiming, type Note } from "@/lib/ocarina-playback";
@@ -173,7 +172,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="ocarina-display" data-recording={recording} style={customGlowTokens(RECORDING_GLOW) as CSSProperties} aria-label="Ocarina button sequence">
+      <section className="ocarina-display" data-recording={recording} aria-label="Ocarina button sequence">
         <OcarinaShape />
         <div className="ocarina-sequence">
           {notes.map((n, i) => (

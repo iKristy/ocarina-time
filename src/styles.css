@@ -96,7 +96,11 @@
   &[data-on="true"], &:active { transform: translateY(2px); filter: brightness(.65); box-shadow: var(--sequence-pressed-shadow); }
 }
 .ocarina-display {
-  --ocarina-recording-glow: color-mix(in srgb, var(--glow-custom-color) var(--glow-custom-opacity), transparent);
+  --ocarina-recording-glow: color-mix(in srgb, #43a1dc 50%, transparent);
+  --glow-spread: 55px;
+  --glow-inner-spread: 20.625px;
+  --glow-fade-in: .2s;
+  --glow-fade-out: 1.5s;
   position: relative;
   width: 100%;
   margin-top: -3.5rem;
