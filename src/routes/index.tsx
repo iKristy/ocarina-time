@@ -33,7 +33,19 @@ function Index() {
   const [scarecrow, setScarecrow] = useState<Note[] | null>(null);
   const [recording, setRecording] = useState(false);
   const [draft, setDraft] = useState<Note[]>([]);
+  const [initialFocus, setInitialFocus] = useState(true);
+  const firstSongRef = useRef<HTMLButtonElement | null>(null);
   useEffect(() => { setScarecrow(readScarecrow()); }, []);
+  useEffect(() => {
+    firstSongRef.current?.focus({ preventScroll: true });
+    const clear = () => setInitialFocus(false);
+    window.addEventListener("pointerdown", clear, { once: true });
+    window.addEventListener("keydown", clear, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", clear);
+      window.removeEventListener("keydown", clear);
+    };
+  }, []);
   const tapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const setSelectedBeforeRecording = useRef(0);
   const player = useRef<ReturnType<typeof createOcarinaPlayer> | null>(null);
@@ -141,6 +153,8 @@ function Index() {
           {SONGS.map((s, i) => (
             <li key={s.name}>
               <Button variant="ghost" onClick={() => playSong(i)}
+                ref={i === 0 ? firstSongRef : null}
+                data-initial-focus={i === 0 && initialFocus}
                 data-playing={i === selected && isPlaying}
                 className={`panel song-item flex h-auto w-full items-center justify-start gap-3 whitespace-normal rounded-lg px-4 py-3.5 text-left font-body text-lg font-normal ${i === selected ? "song-selected text-gold" : "text-foreground"}`}>
                 <span aria-hidden="true" className="song-selected-frame" />

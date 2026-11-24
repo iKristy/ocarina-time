@@ -266,7 +266,7 @@ main > *:not(.triforce-bg) { position: relative; z-index: 1; }
   outline-offset: 3px;
   opacity: 0;
 }
-.song-item:focus-visible::after { opacity: 1; }
+.song-item:focus-visible::after, .song-item[data-initial-focus="true"]::after { opacity: 1; }
 .song-item:active::before {
   border-color: var(--gold);
   box-shadow: var(--song-touch-frame-shadow);

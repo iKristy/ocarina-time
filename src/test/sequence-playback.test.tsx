@@ -46,6 +46,16 @@ beforeEach(() => {
   });
 });
 
+it("drops keyboard focus on the first song on initial load", () => {
+  const Page = Route.options.component as ComponentType;
+  render(createElement(Page));
+  const firstSong = screen.getByRole("button", { name: /Zelda's Lullaby/ });
+  expect(document.activeElement).toBe(firstSong);
+  expect(firstSong).toHaveAttribute("data-initial-focus", "true");
+  fireEvent.keyDown(window, { key: "Tab" });
+  expect(firstSong).toHaveAttribute("data-initial-focus", "false");
+});
+
 it("plays the selected sequence note when tapped", () => {
   const Page = Route.options.component as ComponentType;
   render(createElement(Page));
