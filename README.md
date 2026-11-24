@@ -1,6 +1,6 @@
 # Ocarina of Time
 
-Play the songs of Hyrule on the blue ocarina, right from your phone.
+Play the songs of Hyrule on your very own ocarina, right from your phone.
 
 It's Ocarina Time!
 
