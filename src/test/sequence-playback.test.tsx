@@ -46,19 +46,20 @@ beforeEach(() => {
   });
 });
 
-it("drops keyboard focus on the first song on initial load", () => {
+it("neither selects nor focuses a song on initial load", () => {
   const Page = Route.options.component as ComponentType;
-  render(createElement(Page));
-  const firstSong = screen.getByRole("button", { name: /Zelda's Lullaby/ });
-  expect(document.activeElement).toBe(firstSong);
-  expect(firstSong).toHaveAttribute("data-initial-focus", "true");
-  fireEvent.keyDown(window, { key: "Tab" });
-  expect(firstSong).toHaveAttribute("data-initial-focus", "false");
+  const { container } = render(createElement(Page));
+  expect(container.querySelector(".song-selected")).toBeNull();
+  expect(document.activeElement).toBe(document.body);
+  expect(screen.queryAllByRole("button", { name: /^Play / })).toHaveLength(0);
 });
 
 it("plays the selected sequence note when tapped", () => {
   const Page = Route.options.component as ComponentType;
   render(createElement(Page));
+  fireEvent.click(screen.getByRole("button", { name: /Zelda's Lullaby/ }));
+  start.mockClear();
+  pitches.length = 0;
   fireEvent.click(screen.getByRole("button", { name: "Play Y note 1" }));
   expect(start).toHaveBeenCalledTimes(6);
   expect(pitches[0]).toBeCloseTo(987.77 * 0.982);
@@ -91,10 +92,7 @@ it("taps the Scarecrow's Song tile again to stop recording and discard the notes
   expect(screen.queryByText("1/8")).toBeNull();
   expect(screen.getByText("Empty")).toBeInTheDocument();
   expect(screen.queryByLabelText("Recording notes")).toBeNull();
-  const firstSong = SONGS[0];
-  expect(firstSong).toBeDefined();
-  if (!firstSong) return;
-  expect(screen.getAllByRole("button", { name: /^Play / })).toHaveLength(firstSong.notes.length);
+  expect(screen.queryAllByRole("button", { name: /^Play / })).toHaveLength(0);
 });
 
 it("schedules Zelda's Lullaby using the attached beat lengths", async () => {

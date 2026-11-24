@@ -1,7 +1,7 @@
 import type { Note } from "./ocarina-playback";
 
 export const SCARECROW_LENGTH = 8;
-export const SCARECROW_COOKIE = "ocarina_scarecrow";
+const SCARECROW_COOKIE = "ocarina_scarecrow";
 export const AVAILABLE_NOTES: Note[] = ["A", "D", "R", "L", "U"];
 
 export function parseScarecrow(value: string): Note[] | null {

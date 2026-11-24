@@ -24,30 +24,20 @@ export const Route = createFileRoute("/")({
 // Nintendo Switch button labels for the original five ocarina notes.
 const SYMBOL: Record<Note, string> = { A: "L", D: "R", R: "A", L: "Y", U: "X" };
 const BTN_CLS: Record<Note, string> = { A: "seq-btn-r", D: "seq-btn-r", R: "", L: "", U: "" };
+const SCARECROW_INDEX = SONGS.length;
+const SONG_ITEM_CLS = "song-item flex h-auto w-full items-center justify-start gap-3 whitespace-normal rounded-lg px-4 py-3.5 text-left font-body text-lg font-normal";
 
 function Index() {
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playingNote, setPlayingNote] = useState<number | null>(null);
   const [tappedNote, setTappedNote] = useState<number | null>(null);
   const [scarecrow, setScarecrow] = useState<Note[] | null>(null);
   const [recording, setRecording] = useState(false);
   const [draft, setDraft] = useState<Note[]>([]);
-  const [initialFocus, setInitialFocus] = useState(true);
-  const firstSongRef = useRef<HTMLButtonElement | null>(null);
   useEffect(() => { setScarecrow(readScarecrow()); }, []);
-  useEffect(() => {
-    firstSongRef.current?.focus({ preventScroll: true });
-    const clear = () => setInitialFocus(false);
-    window.addEventListener("pointerdown", clear, { once: true });
-    window.addEventListener("keydown", clear, { once: true });
-    return () => {
-      window.removeEventListener("pointerdown", clear);
-      window.removeEventListener("keydown", clear);
-    };
-  }, []);
   const tapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const setSelectedBeforeRecording = useRef(0);
+  const selectedBeforeRecording = useRef<number | null>(null);
   const player = useRef<ReturnType<typeof createOcarinaPlayer> | null>(null);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const voices = useRef<{ stop(): void }[]>([]);
@@ -62,6 +52,10 @@ function Index() {
     voices.current = [];
     setPlayingNote(null);
     setIsPlaying(false);
+  };
+  const clearTap = () => {
+    if (tapTimer.current) clearTimeout(tapTimer.current);
+    setTappedNote(null);
   };
 
   useEffect(() => () => {
@@ -89,13 +83,12 @@ function Index() {
   };
 
   const playSong = (i: number) => {
-    const nextSong = i === SONGS.length && scarecrow
+    const nextSong = i === SCARECROW_INDEX && scarecrow
       ? { name: "Scarecrow's Song", notes: scarecrow.join(""), beats: scarecrow.map(() => 1), bpm: 120 }
       : SONGS[i];
     if (!nextSong) return;
     stopPlayback();
-    if (tapTimer.current) clearTimeout(tapTimer.current);
-    setTappedNote(null);
+    clearTap();
     setRecording(false);
     setDraft([]);
     setSelected(i);
@@ -118,22 +111,23 @@ function Index() {
 
   const beginRecording = () => {
     stopPlayback();
-    if (tapTimer.current) clearTimeout(tapTimer.current);
-    setTappedNote(null);
-    setSelectedBeforeRecording.current = selected;
-    setSelected(SONGS.length);
+    clearTap();
+    if (!recording) selectedBeforeRecording.current = selected;
+    setSelected(SCARECROW_INDEX);
     setDraft([]);
     setRecording(true);
   };
   const cancelRecording = () => {
     setRecording(false);
     setDraft([]);
-    setSelected(setSelectedBeforeRecording.current);
+    setSelected(selectedBeforeRecording.current);
   };
-  const song = selected === SONGS.length
-    ? { notes: scarecrow?.join("") ?? "" }
-    : SONGS[selected];
-  if (!song) return null;
+  const notes: Note[] = recording
+    ? AVAILABLE_NOTES
+    : selected === SCARECROW_INDEX
+      ? scarecrow ?? []
+      : selected === null ? [] : (SONGS[selected]?.notes.split("") as Note[] | undefined) ?? [];
+  const scarecrowSelected = selected === SCARECROW_INDEX;
 
   return (
     <main className="relative mx-auto flex h-dvh max-w-md flex-col items-center gap-5 overflow-hidden px-4 pb-4 pt-6">
@@ -149,14 +143,12 @@ function Index() {
         <h2 className="songbook-heading mb-2 text-center font-serif text-lg font-bold"><span className="gold-text">SONGBOOK</span></h2>
         <div className="song-scroll min-h-0 flex-1 overflow-y-auto"
           onScroll={(e) => { e.currentTarget.setAttribute("data-scrolled", e.currentTarget.scrollTop > 8 ? "true" : "false"); }}>
-        <ul className="grid grid-cols-1 gap-2.5 px-2 pb-16">
+        <ul className="grid grid-cols-1 gap-2.5 pb-16">
           {SONGS.map((s, i) => (
             <li key={s.name}>
-              <Button variant="ghost" onClick={() => playSong(i)}
-                ref={i === 0 ? firstSongRef : null}
-                data-initial-focus={i === 0 && initialFocus}
+              <Button onClick={() => playSong(i)}
                 data-playing={i === selected && isPlaying}
-                className={`panel song-item flex h-auto w-full items-center justify-start gap-3 whitespace-normal rounded-lg px-4 py-3.5 text-left font-body text-lg font-normal ${i === selected ? "song-selected text-gold" : "text-foreground"}`}>
+                className={`${SONG_ITEM_CLS} ${i === selected ? "song-selected text-gold" : "text-foreground"}`}>
                 <span aria-hidden="true" className="song-selected-frame" />
                 <span aria-hidden="true" className="song-sheen-layer" />
                 <span aria-hidden="true" data-playing={i === selected && isPlaying} className="song-note-icon inline-flex w-5 shrink-0 justify-center text-2xl leading-none">♪</span>
@@ -165,28 +157,28 @@ function Index() {
             </li>
           ))}
           <li className="scarecrow-row">
-            <Button variant="ghost" onClick={() => recording ? cancelRecording() : scarecrow ? playSong(SONGS.length) : beginRecording()}
+            <Button onClick={() => recording ? cancelRecording() : scarecrow ? playSong(SCARECROW_INDEX) : beginRecording()}
               aria-pressed={recording}
-              data-playing={selected === SONGS.length && isPlaying}
-              className={`panel song-item flex h-auto w-full items-center justify-start gap-3 whitespace-normal rounded-lg px-4 py-3.5 text-left font-body text-lg font-normal ${selected === SONGS.length ? "song-selected text-gold" : "text-foreground"} ${scarecrow ? "scarecrow-saved" : ""}`}>
+              data-playing={scarecrowSelected && isPlaying}
+              className={`${SONG_ITEM_CLS} ${scarecrowSelected ? "song-selected text-gold" : "text-foreground"} ${scarecrow ? "scarecrow-saved" : ""}`}>
               <span aria-hidden="true" className="song-selected-frame" />
               <span aria-hidden="true" className="song-sheen-layer" />
-              <span aria-hidden="true" data-playing={selected === SONGS.length && isPlaying} className="song-note-icon inline-flex w-5 shrink-0 justify-center text-2xl leading-none">♪</span>
+              <span aria-hidden="true" data-playing={scarecrowSelected && isPlaying} className="song-note-icon inline-flex w-5 shrink-0 justify-center text-2xl leading-none">♪</span>
               <span className="scarecrow-title">Scarecrow’s Song{recording && <span className="scarecrow-recording-dot" role="status" aria-label="Recording notes" />}</span>
-              {!scarecrow && <span className="ml-auto text-sm text-muted-foreground">{recording ? `${draft.length}/8` : "Empty"}</span>}
+              {!scarecrow && <span className="ml-auto text-sm text-muted-foreground">{recording ? `${draft.length}/${SCARECROW_LENGTH}` : "Empty"}</span>}
             </Button>
-            {scarecrow && <Button variant="ghost" size="icon" className="scarecrow-reset" title="Reset Scarecrow’s Song" aria-label="Reset Scarecrow’s Song"
+            {scarecrow && <Button size="icon" className="scarecrow-reset" title="Reset Scarecrow’s Song" aria-label="Reset Scarecrow’s Song"
               onClick={() => { resetScarecrow(); setScarecrow(null); beginRecording(); }}><RotateCcw /></Button>}
           </li>
         </ul>
         </div>
       </section>
 
-      <section className="ocarina-display" data-recording={recording} data-glow="custom" style={customGlowTokens(RECORDING_GLOW) as CSSProperties} aria-label="Ocarina button sequence">
+      <section className="ocarina-display" data-recording={recording} style={customGlowTokens(RECORDING_GLOW) as CSSProperties} aria-label="Ocarina button sequence">
         <OcarinaShape />
         <div className="ocarina-sequence">
-          {(recording ? AVAILABLE_NOTES : song.notes.split("") as Note[]).map((n, i) => (
-            <Button key={i} type="button" variant="ghost" size="icon"
+          {notes.map((n, i) => (
+            <Button key={i} type="button" size="icon"
               aria-label={`Play ${SYMBOL[n]} note ${i + 1}`}
               onClick={() => playNote(n, i)}
               data-on={playingNote === i || tappedNote === i}
@@ -194,9 +186,9 @@ function Index() {
               {SYMBOL[n]}
             </Button>
           ))}
-          {recording && <Button variant="ghost" size="icon" className="seq-btn seq-btn-reset" title="Reset Scarecrow’s Song" aria-label="Reset Scarecrow’s Song" onClick={beginRecording}><RotateCcw /></Button>}
+          {recording && <Button size="icon" className="seq-btn seq-btn-reset" title="Reset Scarecrow’s Song" aria-label="Reset Scarecrow’s Song" onClick={beginRecording}><RotateCcw /></Button>}
         </div>
-        {recording && <div className="scarecrow-progress" role="status" aria-label={`${draft.length} of 8 notes recorded`}>
+        {recording && <div className="scarecrow-progress" role="status" aria-label={`${draft.length} of ${SCARECROW_LENGTH} notes recorded`}>
           {Array.from({ length: SCARECROW_LENGTH }, (_, i) => <span key={i} data-filled={i < draft.length} aria-hidden="true" />)}
         </div>}
       </section>

@@ -1,5 +1,5 @@
 export type Note = "A" | "D" | "R" | "L" | "U";
-export const FREQ: Record<Note, number> = { A: 587.33, D: 698.46, R: 880, L: 987.77, U: 1174.66 };
+const FREQ: Record<Note, number> = { A: 587.33, D: 698.46, R: 880, L: 987.77, U: 1174.66 };
 export const SONGS = [
   { name: "Zelda's Lullaby", notes: "LURLUR", beats: [2, 1, 3, 2, 1, 3], bpm: 160 },
   { name: "Epona's Song", notes: "ULRULR", beats: [1, 1, 4, 1, 1, 4], bpm: 190 },
