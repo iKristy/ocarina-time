@@ -1,5 +1,0 @@
-- [x] Add glow preset settings with preview and device-local saving.
-- [x] Verify saved choices, recording glow, mobile layout, and reduced motion.
-- [x] Add custom glow color, spread, opacity, and separate fade timing controls.
-- [x] Verify custom preview, saving, reload persistence, and reduced motion.
-- [x] Apply the screenshot glow values, remove settings, and verify recording and reduced motion.
